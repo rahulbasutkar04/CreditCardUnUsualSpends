@@ -16,13 +16,12 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class UserControllerTest {
-    private UserService userService;
     private UserController userController;
 
     @BeforeEach
     void setUp() {
         Injector injector = Guice.createInjector(new UserModule());
-        userService = injector.getInstance(UserService.class);
+        UserService userService = injector.getInstance(UserService.class);
         userController = new UserController(userService);
     }
 

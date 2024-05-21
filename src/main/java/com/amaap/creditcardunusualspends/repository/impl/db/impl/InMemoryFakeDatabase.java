@@ -15,4 +15,9 @@ public class InMemoryFakeDatabase implements FakeDatabase {
         userData.put(id, userDetails);
     }
 
+    @Override
+    public Map<Integer, Map<String, String>> getUserData() {
+        return userData;
+    }
+
 }

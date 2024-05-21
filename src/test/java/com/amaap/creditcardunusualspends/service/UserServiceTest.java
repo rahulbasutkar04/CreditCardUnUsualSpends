@@ -18,14 +18,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class UserServiceTest {
 
     private UserService userService;
-    private FakeDatabase fakeDatabase;
-    private UserRepository userRepository;
 
     @BeforeEach
     void setUp() {
         Injector injector = Guice.createInjector(new UserModule());
-        fakeDatabase = injector.getInstance(FakeDatabase.class);
-        userRepository = injector.getInstance(UserRepository.class);
         userService = injector.getInstance(UserService.class);
     }
 
