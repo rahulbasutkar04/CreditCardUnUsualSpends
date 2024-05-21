@@ -1,5 +1,6 @@
 package com.amaap.creditcardunusualspends.service;
 
+import com.amaap.creditcardunusualspends.service.exception.InvalidEmailException;
 import com.amaap.creditcardunusualspends.service.exception.InvalidUserException;
 import com.amaap.creditcardunusualspends.service.exception.InvalidUserIdException;
 import com.amaap.creditcardunusualspends.service.exception.InvalidUserNameException;
@@ -9,7 +10,7 @@ public class UserService {
 
     UserValidator userValidator = new UserValidator();
 
-    public boolean CreateUser(int userId, String name, String email) throws InvalidUserIdException, InvalidUserNameException, InvalidUserException {
+    public boolean CreateUser(int userId, String name, String email) throws InvalidUserIdException, InvalidUserNameException, InvalidEmailException {
         if (userId <= 0) {
             throw new InvalidUserIdException("Invalid Id: " + userId);
         }
@@ -19,7 +20,7 @@ public class UserService {
         }
 
         if (!userValidator.isValidEmail(email)) {
-            throw new InvalidUserException("Invalid Email: " + email);
+            throw new InvalidEmailException("Invalid Email: " + email);
         }
         return true;
     }

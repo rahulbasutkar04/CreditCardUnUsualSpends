@@ -1,5 +1,5 @@
 package com.amaap.creditcardunusualspends.controller.dto;
 
 public enum Http {
-    Ok
+    BAD_REQUEST, OK
 }
