@@ -1,5 +1,7 @@
 package com.amaap.creditcardunusualspends.controller;
 
+import com.amaap.creditcardunusualspends.controller.dto.Http;
+import com.amaap.creditcardunusualspends.controller.dto.Response;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
