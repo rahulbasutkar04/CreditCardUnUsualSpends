@@ -16,7 +16,7 @@ public class UserController {
     }
 
     public Response createUser(int userId, String name, String email) throws InvalidUserIdException, InvalidUserNameException, InvalidUserException, InvalidEmailException {
-        if(userService.CreateUser(userId,name,email)) {
+        if(userService.createUser(userId,name,email)) {
             return new Response(Http.OK, "User Created..");
         }
 

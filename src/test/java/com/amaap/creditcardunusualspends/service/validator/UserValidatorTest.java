@@ -1,16 +1,26 @@
 package com.amaap.creditcardunusualspends.service.validator;
 
+import com.amaap.creditcardunusualspends.module.UserModule;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class UserValidatorTest {
 
+     private UserValidator userValidator;
 
+     @BeforeEach
+     void setUp()
+     {
+         Injector injector= Guice.createInjector(new UserModule());
+        userValidator= injector.getInstance(UserValidator.class);
+     }
     @Test
     void ShouldAbleToCheckValidCustomerNames()
     {
-        UserValidator  userValidator=new UserValidator() ;
         boolean actual=userValidator.isValidName("rahul");
         assertTrue(actual);
         assertTrue( userValidator.isValidName("rahul basutkar"));
@@ -39,7 +49,6 @@ class UserValidatorTest {
     @Test
     void shouldAbleToValidEmailAddresses()
     {
-        UserValidator  userValidator=new UserValidator() ;
 
         assertTrue(userValidator.isValidEmail("rahulbasutkar33@gmail.com"));
         assertTrue(userValidator.isValidEmail("rahulb@gmail.comm"));

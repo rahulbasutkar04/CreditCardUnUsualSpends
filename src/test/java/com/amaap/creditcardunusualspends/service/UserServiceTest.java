@@ -1,48 +1,65 @@
 package com.amaap.creditcardunusualspends.service;
 
+import com.amaap.creditcardunusualspends.module.UserModule;
+import com.amaap.creditcardunusualspends.repository.UserRepository;
+import com.amaap.creditcardunusualspends.repository.impl.db.FakeDatabase;
 import com.amaap.creditcardunusualspends.service.exception.InvalidEmailException;
 import com.amaap.creditcardunusualspends.service.exception.InvalidUserException;
 import com.amaap.creditcardunusualspends.service.exception.InvalidUserIdException;
 import com.amaap.creditcardunusualspends.service.exception.InvalidUserNameException;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class UserServiceTest {
 
-    UserService userService=new UserService();
+    private UserService userService;
+    private FakeDatabase fakeDatabase;
+    private UserRepository userRepository;
+
+    @BeforeEach
+    void setUp() {
+        Injector injector = Guice.createInjector(new UserModule());
+        fakeDatabase = injector.getInstance(FakeDatabase.class);
+        userRepository = injector.getInstance(UserRepository.class);
+        userService = injector.getInstance(UserService.class);
+    }
 
     @Test
     void shouldBeAbleToReturnTrueIfUserGetCreatedAndSaved() throws InvalidUserIdException, InvalidUserNameException, InvalidUserException, InvalidEmailException {
         // arrange
-        int id=1;
-        String name="Rahul Basutkar";
-        String email="rahulbasutkar33@gmail.com";
+        int id = 1;
+        String name = "Rahul Basutkar";
+        String email = "rahulbasutkar33@gmail.com";
 
         // act & assert
-       assertTrue(userService.CreateUser(id,name,email));
+        assertTrue(userService.createUser(id, name, email));
 
     }
 
     @Test
     void shouldThrowExceptionIfIdIsWrong() {
         assertThrows(InvalidUserIdException.class, () -> {
-            userService.CreateUser(-1, "john doe", "abc@gmail.com");
+            userService.createUser(-1, "john doe", "abc@gmail.com");
         });
     }
 
 
     @Test
     void shouldThrowExceptionIfNameISNull() {
-         assertThrows(InvalidUserNameException.class, () -> {
-            userService.CreateUser(1, null, "abc@gmail.com");
+        assertThrows(InvalidUserNameException.class, () -> {
+            userService.createUser(1, null, "abc@gmail.com");
         });
     }
 
     @Test
     void shouldThrowExceptionIfEmailIsNull() {
         assertThrows(InvalidEmailException.class, () -> {
-            userService.CreateUser(1, "Rahul", null);
+            userService.createUser(1, "Rahul", null);
         });
     }
 
