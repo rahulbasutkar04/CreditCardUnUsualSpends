@@ -23,4 +23,9 @@ public class InMemoryUserRepository implements UserRepository {
     public Map<Integer, Map<String, String>> getUserData() {
         return fakeDatabase.getUserData();
     }
+
+    @Override
+    public int getUserId() {
+        return fakeDatabase.getId();
+    }
 }

@@ -6,4 +6,9 @@ import java.util.Map;
 public interface FakeDatabase {
     void insertIntoUserTable(int id,String name,String email);
     Map<Integer, Map<String, String>> getUserData();
+    int getId();
+
+    void InsertIntoCreditCardTable(int id,long CreditCardNumber);
+
+    Map<Integer, Long> getCreditCardData();
 }
