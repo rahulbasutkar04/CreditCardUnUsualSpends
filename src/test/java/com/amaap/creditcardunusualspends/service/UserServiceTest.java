@@ -1,8 +1,6 @@
 package com.amaap.creditcardunusualspends.service;
 
 import com.amaap.creditcardunusualspends.module.UserModule;
-import com.amaap.creditcardunusualspends.repository.UserRepository;
-import com.amaap.creditcardunusualspends.repository.impl.db.FakeDatabase;
 import com.amaap.creditcardunusualspends.service.exception.InvalidEmailException;
 import com.amaap.creditcardunusualspends.service.exception.InvalidUserException;
 import com.amaap.creditcardunusualspends.service.exception.InvalidUserIdException;
@@ -43,7 +41,6 @@ class UserServiceTest {
             userService.createUser(-1, "john doe", "abc@gmail.com");
         });
     }
-
 
     @Test
     void shouldThrowExceptionIfNameISNull() {

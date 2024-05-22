@@ -15,10 +15,12 @@ public class CreditCardController {
 
     Response  receiveCreditCardNumber(long creditCardNumber) throws InvalidCreditCardNumber, InvalidCreditCardNumberLength {
 
-        if(creditCardService.CreteCard(creditCardNumber))
+        if(creditCardService.CreateCard(creditCardNumber))
         {
             return  new Response(Http.OK,"Credit Card Created..");
         }
         return  new Response(Http.BAD_REQUEST,"Credit Card Not Created..");
     }
+
+
 }
