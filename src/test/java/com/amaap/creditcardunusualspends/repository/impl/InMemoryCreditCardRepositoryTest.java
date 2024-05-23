@@ -54,7 +54,7 @@ class InMemoryCreditCardRepositoryTest {
 
     @Test
     void shouldThrowExceptionIfNoUserIsCreatedAndAskedForTheirCreditCardNumber() {
-        // act
+        // act & assert
         assertThrows(IllegalStateException.class,()->{
                 creditCardRepository.GetCreditCardNumber();
         });

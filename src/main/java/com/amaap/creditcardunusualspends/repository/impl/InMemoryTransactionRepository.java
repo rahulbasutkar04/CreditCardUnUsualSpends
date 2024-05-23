@@ -11,7 +11,6 @@ import java.util.Map;
 public class InMemoryTransactionRepository implements TransactionRepository {
     private final FakeDatabase fakeDatabase;
 
-
     @Inject
     public InMemoryTransactionRepository(FakeDatabase fakeDatabase) {
         this.fakeDatabase = fakeDatabase;
@@ -21,8 +20,6 @@ public class InMemoryTransactionRepository implements TransactionRepository {
     public boolean addTransactionData(long creditCardNumber, Transaction transaction) {
         return fakeDatabase.insertIntoTransactionTable(creditCardNumber,transaction);
     }
-
-
 
     @Override
     public List<Transaction> getTransactionDataFor(Long creditCardNumber) {
