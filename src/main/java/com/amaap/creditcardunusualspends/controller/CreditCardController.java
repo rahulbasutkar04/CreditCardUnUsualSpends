@@ -13,13 +13,16 @@ public class CreditCardController {
         this.creditCardService = creditCardService;
     }
 
-    Response  receiveCreditCardNumber(long creditCardNumber) throws InvalidCreditCardNumber, InvalidCreditCardNumberLength {
-
-        if(creditCardService.CreateCard(creditCardNumber))
-        {
-            return  new Response(Http.OK,"Credit Card Created..");
+  public   Response  receiveCreditCardNumber(long creditCardNumber) throws InvalidCreditCardNumber, InvalidCreditCardNumberLength {
+        try {
+            if (creditCardService.CreateCard(creditCardNumber)) {
+                return new Response(Http.OK, "Credit Card Created..");
+            }
+        } catch (Exception e) {
+            return new Response(Http.BAD_REQUEST, "Credit Card Not Created..");
         }
-        return  new Response(Http.BAD_REQUEST,"Credit Card Not Created..");
+
+        return new Response(Http.BAD_REQUEST, "Unexpected Error..");
     }
 
 

@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Date;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class TransactionServiceTest {
@@ -36,7 +37,7 @@ class TransactionServiceTest {
     }
 
     @Test
-    void shouldBeAbleToReturnTrueIfTransactionIsStartedForTheCreditCardNumber() throws IllegalAmountException, InvalidCreditCardNumber, InvalidCreditCardNumberLength, InvalidUserIdException, InvalidUserNameException, InvalidUserException, InvalidEmailException {
+    void shouldBeAbleToReturnTrueIfTransactionIsStartedForTheCreditCardNumber() throws IllegalAmountException, InvalidCreditCardNumber, InvalidCreditCardNumberLength, InvalidUserIdException, InvalidUserNameException, InvalidUserException, InvalidEmailException, DuplicateUserIdException {
         // arrange
         UserController userController = new UserController(userService);
         userController.createUser(1, "Rahul", "rahulbasutkar33@gmail.com");
@@ -54,7 +55,7 @@ class TransactionServiceTest {
     }
 
     @Test
-    void shouldBeAbleToCheckWhetherTransactionIsSavedInMemoryOrNot() throws InvalidUserIdException, InvalidUserNameException, InvalidUserException, InvalidEmailException, InvalidCreditCardNumber, InvalidCreditCardNumberLength, IllegalAmountException {
+    void shouldBeAbleToCheckWhetherTransactionIsSavedInMemoryOrNot() throws InvalidUserIdException, InvalidUserNameException, InvalidUserException, InvalidEmailException, InvalidCreditCardNumber, InvalidCreditCardNumberLength, IllegalAmountException, DuplicateUserIdException {
         // arrange
         UserController userController = new UserController(userService);
         userController.createUser(1, "Rahul", "rahulbasutkar33@gmail.com");
@@ -68,9 +69,11 @@ class TransactionServiceTest {
         transactionService.performTransaction(date, category, amount);
         transactionService.performTransaction(new Date(24, 04, 22), Categories.GROCERY, 400.0);
 
-        System.out.println(transactionRepository.getTransactionDataFor(12345678L));
+        int insertedTransactionSize=transactionRepository.getTransactionDataFor(12345678L).size();
 
         // assert
+
+        assertEquals(2,insertedTransactionSize);
     }
 
 

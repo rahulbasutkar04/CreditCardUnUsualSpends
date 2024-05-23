@@ -1,10 +1,8 @@
 package com.amaap.creditcardunusualspends.service;
 
 import com.amaap.creditcardunusualspends.module.UserModule;
-import com.amaap.creditcardunusualspends.service.exception.InvalidEmailException;
-import com.amaap.creditcardunusualspends.service.exception.InvalidUserException;
-import com.amaap.creditcardunusualspends.service.exception.InvalidUserIdException;
-import com.amaap.creditcardunusualspends.service.exception.InvalidUserNameException;
+import com.amaap.creditcardunusualspends.repository.UserRepository;
+import com.amaap.creditcardunusualspends.service.exception.*;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,15 +14,17 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class UserServiceTest {
 
     private UserService userService;
+    private UserRepository userRepository;
 
     @BeforeEach
     void setUp() {
         Injector injector = Guice.createInjector(new UserModule());
-        userService = injector.getInstance(UserService.class);
+        userRepository=injector.getInstance(UserRepository.class);
+        userService = new UserService(userRepository);
     }
 
     @Test
-    void shouldBeAbleToReturnTrueIfUserGetCreatedAndSaved() throws InvalidUserIdException, InvalidUserNameException, InvalidUserException, InvalidEmailException {
+    void shouldBeAbleToReturnTrueIfUserGetCreatedAndSaved() throws InvalidUserIdException, InvalidUserNameException, InvalidUserException, InvalidEmailException, DuplicateUserIdException {
         // arrange
         int id = 1;
         String name = "Rahul Basutkar";
@@ -53,6 +53,25 @@ class UserServiceTest {
     void shouldThrowExceptionIfEmailIsNull() {
         assertThrows(InvalidEmailException.class, () -> {
             userService.createUser(1, "Rahul", null);
+        });
+    }
+
+    @Test
+    void shouldThrowExceptionIfUserIdIsDuplicate() throws InvalidUserIdException, InvalidUserNameException, InvalidEmailException, DuplicateUserIdException {
+        // arrange
+        int id = 1;
+        String name1 = "Rahul Basutkar";
+        String email1 = "rahulbasutkar33@gmail.com";
+
+        String name2 = "John Doe";
+        String email2 = "john.doe@example.com";
+
+        // act
+        userService.createUser(id, name1, email1);
+
+        // assert
+        assertThrows(DuplicateUserIdException.class, () -> {
+            userService.createUser(id, name2, email2);
         });
     }
 

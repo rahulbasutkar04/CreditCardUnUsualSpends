@@ -1,6 +1,5 @@
 package com.amaap.creditcardunusualspends.service;
 
-import com.amaap.creditcardunusualspends.controller.CreditCardController;
 import com.amaap.creditcardunusualspends.controller.UserController;
 import com.amaap.creditcardunusualspends.module.UserModule;
 import com.amaap.creditcardunusualspends.repository.CreditCardRepository;
@@ -17,22 +16,18 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CreditCardServiceTest {
-    UserRepository userRepository;
-    CreditCardRepository creditCardRepository;
-    CreditCardService creditCardService;
-    CreditCardController creditCardController;
-    UserController userController;
-    UserService userService;
+    private CreditCardService creditCardService;
+    private UserController userController;
+    private CreditCardRepository creditCardRepository;
+    private UserRepository userRepository;
 
     @BeforeEach
     void setUp() {
         Injector injector = Guice.createInjector(new UserModule());
-
+        userRepository=injector.getInstance(UserRepository.class);
         creditCardRepository = injector.getInstance(CreditCardRepository.class);
-        userRepository = injector.getInstance(UserRepository.class);
-        creditCardService = new CreditCardService(userRepository, creditCardRepository);
-        creditCardController = new CreditCardController(creditCardService);
-        userService = injector.getInstance(UserService.class);
+        creditCardService = new CreditCardService(userRepository,creditCardRepository);
+        UserService userService = new UserService(userRepository);
         userController = new UserController(userService);
 
     }
@@ -40,7 +35,6 @@ class CreditCardServiceTest {
     @Test
     void shouldBeABleToReturnTrueIfCreditCardIsSavedWithTheUserId() throws InvalidCreditCardNumber, InvalidCreditCardNumberLength {
         // arrange
-
         long creditCardNumber = 12345678;
 
         // act
@@ -73,7 +67,7 @@ class CreditCardServiceTest {
     }
 
     @Test
-    void shouldBeAbleToGetTheStoredUserIdAndCreditCardNumberFromRepository() throws InvalidUserIdException, InvalidUserNameException, InvalidUserException, InvalidEmailException, InvalidCreditCardNumber, InvalidCreditCardNumberLength {
+    void shouldBeAbleToGetTheStoredUserIdAndCreditCardNumberFromRepository() throws InvalidUserIdException, InvalidUserNameException, InvalidUserException, InvalidEmailException, InvalidCreditCardNumber, InvalidCreditCardNumberLength, DuplicateUserIdException {
         // arrange
         userController.createUser(1, "Rahul Basutkar", "rahulbasutkar33@gmial.com");
         long creditCardNumber = 12345678;

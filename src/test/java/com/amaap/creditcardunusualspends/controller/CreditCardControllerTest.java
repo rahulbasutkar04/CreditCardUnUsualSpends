@@ -26,16 +26,29 @@ public class CreditCardControllerTest {
     void setUp()
     {
         Injector injector = Guice.createInjector(new UserModule());
-       userRepository= injector.getInstance(UserRepository.class);
-       creditCardRepository=injector.getInstance(CreditCardRepository.class);
+        userRepository= injector.getInstance(UserRepository.class);
+        creditCardRepository=injector.getInstance(CreditCardRepository.class);
         creditCardService =new CreditCardService(userRepository,creditCardRepository);
     }
     @Test
-    void shouldBeAbleToReceiveCreditCardNumber() throws InvalidCreditCardNumber, InvalidCreditCardNumberLength {
+    void shouldBeAbleToRespondWithOKIfCreditCardIsSaved() throws InvalidCreditCardNumber, InvalidCreditCardNumberLength {
         // arrange
         CreditCardController creditCardController = new CreditCardController(creditCardService);
-        long creditCardNumber = 1234567;
+        long creditCardNumber = 12345678;
         Response expected = new Response(Http.OK, "Credit Card Created..");
+
+        //act
+        Response actual = creditCardController.receiveCreditCardNumber(creditCardNumber);
+
+        // assert
+        assertEquals(expected,actual);
+    }
+    @Test
+    void shouldBeAbleToRespondWithBADREQUESTIfCreditCardNotSaved() throws InvalidCreditCardNumber, InvalidCreditCardNumberLength {
+        // arrange
+        CreditCardController creditCardController = new CreditCardController(creditCardService);
+        long creditCardNumber = 1234568;
+        Response expected = new Response(Http.BAD_REQUEST, "Credit Card Not Created..");
 
         //act
         Response actual = creditCardController.receiveCreditCardNumber(creditCardNumber);
