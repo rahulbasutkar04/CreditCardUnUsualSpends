@@ -37,7 +37,7 @@ class TransactionServiceTest {
     }
 
     @Test
-    void shouldBeAbleToReturnTrueIfTransactionIsStartedForTheCreditCardNumber() throws IllegalAmountException, InvalidCreditCardNumber, InvalidCreditCardNumberLength, InvalidUserIdException, InvalidUserNameException, InvalidUserException, InvalidEmailException, DuplicateUserIdException {
+    void shouldBeAbleToReturnTrueIfTransactionIsStartedForTheCreditCardNumber() throws IllegalAmountException, InvalidCreditCardNumber, InvalidCreditCardNumberLength, InvalidUserIdException, InvalidUserNameException, InvalidUserException, InvalidEmailException, DuplicateUserIdException, DuplicateCreditCardException {
         // arrange
         UserController userController = new UserController(userService);
         userController.createUser(1, "Rahul", "rahulbasutkar33@gmail.com");
@@ -55,7 +55,7 @@ class TransactionServiceTest {
     }
 
     @Test
-    void shouldBeAbleToCheckWhetherTransactionIsSavedInMemoryOrNot() throws InvalidUserIdException, InvalidUserNameException, InvalidUserException, InvalidEmailException, InvalidCreditCardNumber, InvalidCreditCardNumberLength, IllegalAmountException, DuplicateUserIdException {
+    void shouldBeAbleToCheckWhetherTransactionIsSavedInMemoryOrNot() throws InvalidUserIdException, InvalidUserNameException, InvalidUserException, InvalidEmailException, InvalidCreditCardNumber, InvalidCreditCardNumberLength, IllegalAmountException, DuplicateUserIdException, DuplicateCreditCardException {
         // arrange
         UserController userController = new UserController(userService);
         userController.createUser(1, "Rahul", "rahulbasutkar33@gmail.com");

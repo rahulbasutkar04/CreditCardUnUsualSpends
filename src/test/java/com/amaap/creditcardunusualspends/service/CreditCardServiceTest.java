@@ -33,7 +33,7 @@ class CreditCardServiceTest {
     }
 
     @Test
-    void shouldBeABleToReturnTrueIfCreditCardIsSavedWithTheUserId() throws InvalidCreditCardNumber, InvalidCreditCardNumberLength {
+    void shouldBeABleToReturnTrueIfCreditCardIsSavedWithTheUserId() throws InvalidCreditCardNumber, InvalidCreditCardNumberLength, DuplicateCreditCardException {
         // arrange
         long creditCardNumber = 12345678;
 
@@ -67,7 +67,7 @@ class CreditCardServiceTest {
     }
 
     @Test
-    void shouldBeAbleToGetTheStoredUserIdAndCreditCardNumberFromRepository() throws InvalidUserIdException, InvalidUserNameException, InvalidUserException, InvalidEmailException, InvalidCreditCardNumber, InvalidCreditCardNumberLength, DuplicateUserIdException {
+    void shouldBeAbleToGetTheStoredUserIdAndCreditCardNumberFromRepository() throws InvalidUserIdException, InvalidUserNameException, InvalidUserException, InvalidEmailException, InvalidCreditCardNumber, InvalidCreditCardNumberLength, DuplicateUserIdException, DuplicateCreditCardException {
         // arrange
         userController.createUser(1, "Rahul Basutkar", "rahulbasutkar33@gmial.com");
         long creditCardNumber = 12345678;
@@ -79,6 +79,21 @@ class CreditCardServiceTest {
 
         // assert
         assertEquals(expectedData, creditCardRepository.getCreditCardDetails());
+    }
+
+    @Test
+    void shouldThrowExceptionIfDuplicateCreditCardNumberIsAdded() throws InvalidCreditCardNumber, InvalidCreditCardNumberLength, DuplicateCreditCardException, InvalidUserIdException, InvalidUserNameException, InvalidUserException, InvalidEmailException, DuplicateUserIdException {
+        // arrange
+        userController.createUser(1, "Rahul Basutkar", "rahulbasutkar33@gmail.com");
+        long creditCardNumber = 12345678;
+
+        // act
+        creditCardService.CreateCard(creditCardNumber);
+
+        // assert
+        assertThrows(DuplicateCreditCardException.class, () -> {
+            creditCardService.CreateCard(creditCardNumber);
+        });
     }
 
 }
