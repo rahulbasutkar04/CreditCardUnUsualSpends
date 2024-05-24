@@ -1,5 +1,6 @@
 package com.amaap.creditcardunusualspends.repository.impl.db;
 
+import com.amaap.creditcardunusualspends.domain.model.Categories;
 import com.amaap.creditcardunusualspends.domain.service.Transaction;
 
 import java.util.List;
@@ -20,4 +21,6 @@ public interface FakeDatabase {
     boolean insertIntoTransactionTable(long creditCardNumber, Transaction transaction);
 
     List<Transaction> getTransactionData(Long creditCardId);
+
+    void insertIntoExpenditureDataTable(Map<Categories, Double> unusualSpendData);
 }

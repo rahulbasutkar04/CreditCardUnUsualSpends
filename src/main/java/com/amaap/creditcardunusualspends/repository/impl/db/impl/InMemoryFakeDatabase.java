@@ -1,5 +1,6 @@
 package com.amaap.creditcardunusualspends.repository.impl.db.impl;
 
+import com.amaap.creditcardunusualspends.domain.model.Categories;
 import com.amaap.creditcardunusualspends.domain.service.Transaction;
 import com.amaap.creditcardunusualspends.repository.impl.db.FakeDatabase;
 
@@ -9,6 +10,7 @@ public class InMemoryFakeDatabase implements FakeDatabase {
     private final Map<Integer, Map<String, String>> userData = new HashMap<>();
     private final Map<Integer, Long> creditCardData = new HashMap<>();
     private final Map<Long, List<Transaction>> transactionData = new HashMap<>();
+    private final Map<Categories,Double> expenditureData=new HashMap<>();
     private int lastInsertedId = -1;
 
     @Override
@@ -61,5 +63,10 @@ public class InMemoryFakeDatabase implements FakeDatabase {
     @Override
     public List<Transaction> getTransactionData(Long creditCardNumber) {
         return transactionData.getOrDefault(creditCardNumber, Collections.emptyList());
+    }
+
+    @Override
+    public void insertIntoExpenditureDataTable(Map<Categories, Double> unusualSpendData) {
+        expenditureData.putAll(unusualSpendData);
     }
 }
