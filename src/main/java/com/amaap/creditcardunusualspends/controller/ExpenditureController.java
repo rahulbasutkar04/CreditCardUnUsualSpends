@@ -3,8 +3,11 @@ package com.amaap.creditcardunusualspends.controller;
 import com.amaap.creditcardunusualspends.controller.dto.Http;
 import com.amaap.creditcardunusualspends.controller.dto.Response;
 import com.amaap.creditcardunusualspends.service.ExpenditureService;
+import com.google.inject.Inject;
 
 public class ExpenditureController {
+
+    @Inject
     public ExpenditureController(ExpenditureService expenditureService) {
         this.expenditureService = expenditureService;
     }
