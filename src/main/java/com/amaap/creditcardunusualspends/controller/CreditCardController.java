@@ -5,10 +5,12 @@ import com.amaap.creditcardunusualspends.controller.dto.Response;
 import com.amaap.creditcardunusualspends.service.CreditCardService;
 import com.amaap.creditcardunusualspends.service.exception.InvalidCreditCardNumber;
 import com.amaap.creditcardunusualspends.service.exception.InvalidCreditCardNumberLength;
+import com.google.inject.Inject;
 
 public class CreditCardController {
    private  final CreditCardService creditCardService;
 
+   @Inject
     public CreditCardController(CreditCardService creditCardService) {
         this.creditCardService = creditCardService;
     }
