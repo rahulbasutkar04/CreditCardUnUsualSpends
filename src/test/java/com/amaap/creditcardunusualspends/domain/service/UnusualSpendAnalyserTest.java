@@ -14,13 +14,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class UnusualSpendAnalyserTest {
 
-
     TransactionBuilder transactionBuilder = new TransactionBuilder();
     UnusualSpendDetector unusualSpendDetector=new DefaultUnusualSpendDetector(50);
     UnusualSpendAnalyser unusualSpendAnalyser=new UnusualSpendAnalyser(unusualSpendDetector);
 
     @Test
-    public void testCurrentMonthTransactions() throws IllegalAmountException {
+    public void shouldBeAbleToTestCurrentMonthTransactions() throws IllegalAmountException {
         // arrange
         List<Transaction> transactions = transactionBuilder.currentMonthTransactionData();
 
@@ -35,7 +34,7 @@ class UnusualSpendAnalyserTest {
     }
 
     @Test
-    public void testPreviousMonthTransactions() throws IllegalAmountException {
+    public void shouldBeAbleToTestPreviousMonthTransactions() throws IllegalAmountException {
         // arrange
         List<Transaction> transactions = transactionBuilder.previousMonthTransactionData();
 
@@ -49,7 +48,7 @@ class UnusualSpendAnalyserTest {
     }
 
     @Test
-    public void testCalculateUnusualSpends() throws IllegalAmountException {
+    public void shouldBeAbleToTestCalculateUnusualSpends() throws IllegalAmountException {
 
         // arrange
         List<Transaction> transactions = transactionBuilder.allTransactionData();

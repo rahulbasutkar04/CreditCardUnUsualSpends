@@ -10,7 +10,7 @@ public class InMemoryFakeDatabase implements FakeDatabase {
     private final Map<Integer, Map<String, String>> userData = new HashMap<>();
     private final Map<Integer, Long> creditCardData = new HashMap<>();
     private final Map<Long, List<Transaction>> transactionData = new HashMap<>();
-    private final Map<Categories,Double> expenditureData=new HashMap<>();
+    private final Map<Long, Map<Categories, Double>> expenditureData = new HashMap<>();
     private int lastInsertedId = -1;
 
     @Override
@@ -34,8 +34,10 @@ public class InMemoryFakeDatabase implements FakeDatabase {
 
     @Override
     public void InsertIntoCreditCardTable(int id, long creditCardNumber) {
-        creditCardData.put(id, creditCardNumber);
+        creditCardData.put(id,creditCardNumber);
     }
+
+
 
     @Override
     public Map<Integer, Long> getCreditCardData() {
@@ -67,6 +69,48 @@ public class InMemoryFakeDatabase implements FakeDatabase {
 
     @Override
     public void insertIntoExpenditureDataTable(Map<Categories, Double> unusualSpendData) {
-        expenditureData.putAll(unusualSpendData);
+        long ccNumber = getCreditCardNumber();
+        expenditureData.putIfAbsent(ccNumber, new HashMap<>());
+        expenditureData.get(ccNumber).putAll(unusualSpendData);
+    }
+
+    @Override
+    public String getUserNameById(int userId) {
+        Map<String, String> userDetails = userData.get(userId);
+        if (userDetails != null) {
+            return userDetails.get("name");
+        }
+        return null;
+    }
+
+    @Override
+    public String getEmailById(int userId) {
+        Map<String, String> userDetails = userData.get(userId);
+        if (userDetails != null) {
+            return userDetails.get("email");
+        }
+        return null;
+    }
+
+    @Override
+    public long getCreditCardNumberById(int userId) {
+        Long creditCardNumber = creditCardData.get(userId);
+        if (creditCardNumber != null) {
+            return creditCardNumber;
+        }
+        throw new IllegalArgumentException("No credit card number found for user ID: " + userId);
+    }
+
+    @Override
+    public Map<String, Double> getUnUsualSpendDataFor(long ccNumber) {
+        Map<Categories, Double> spends = expenditureData.get(ccNumber);
+        if (spends == null) {
+            return Collections.emptyMap();
+        }
+        Map<String, Double> result = new HashMap<>();
+        for (Map.Entry<Categories, Double> entry : spends.entrySet()) {
+            result.put(entry.getKey().name(), entry.getValue());
+        }
+        return result;
     }
 }

@@ -5,12 +5,14 @@ import com.amaap.creditcardunusualspends.domain.service.Transaction;
 import com.amaap.creditcardunusualspends.domain.service.exception.IllegalAmountException;
 import com.amaap.creditcardunusualspends.repository.CreditCardRepository;
 import com.amaap.creditcardunusualspends.repository.TransactionRepository;
+import com.google.inject.Inject;
 
 import java.util.Date;
 
 public class TransactionService {
     private final CreditCardRepository creditCardRepository;
     private final TransactionRepository transactionRepository;
+
 
     public TransactionService(CreditCardRepository creditCardRepository, TransactionRepository transactionRepository) {
         this.creditCardRepository = creditCardRepository;

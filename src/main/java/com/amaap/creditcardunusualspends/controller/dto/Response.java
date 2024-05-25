@@ -23,4 +23,12 @@ public class Response {
         this.http=http;
         this.message=message;
     }
+
+    @Override
+    public String toString() {
+        return "Response{" +
+                "http=" + http +
+                ", message='" + message + '\'' +
+                '}';
+    }
 }

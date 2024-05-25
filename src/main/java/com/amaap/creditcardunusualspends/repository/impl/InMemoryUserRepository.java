@@ -28,4 +28,14 @@ public class InMemoryUserRepository implements UserRepository {
     public int getUserId() {
         return fakeDatabase.getId();
     }
+
+    @Override
+    public String getUserNameById(int userId) {
+        return fakeDatabase.getUserNameById(userId);
+    }
+
+    @Override
+    public String getUserEmailById(int userId) {
+        return fakeDatabase.getEmailById(userId);
+    }
 }

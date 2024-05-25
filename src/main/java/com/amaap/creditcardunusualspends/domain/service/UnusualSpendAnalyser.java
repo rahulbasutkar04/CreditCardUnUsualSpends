@@ -18,7 +18,6 @@ public class UnusualSpendAnalyser {
         List<Transaction> previousMonthData = LastMonthTransactionAnalyser.getLastMonthTransactions(transactionData);
         Map<Categories, Double> currentMonthSpending = calculateTotalSpendingPerCategory(currentMonthData);
         Map<Categories, Double> previousMonthSpending = calculateTotalSpendingPerCategory(previousMonthData);
-
         return unusualSpendDetector.findUnusualSpends(currentMonthSpending, previousMonthSpending);
     }
 

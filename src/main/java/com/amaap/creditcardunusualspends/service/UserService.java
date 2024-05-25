@@ -6,6 +6,7 @@ import com.amaap.creditcardunusualspends.service.exception.InvalidEmailException
 import com.amaap.creditcardunusualspends.service.exception.InvalidUserIdException;
 import com.amaap.creditcardunusualspends.service.exception.InvalidUserNameException;
 import com.amaap.creditcardunusualspends.service.validator.UserValidator;
+import com.google.inject.Inject;
 
 public class UserService {
     UserValidator userValidator = new UserValidator();

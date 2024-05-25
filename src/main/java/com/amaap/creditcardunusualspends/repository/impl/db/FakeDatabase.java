@@ -23,4 +23,12 @@ public interface FakeDatabase {
     List<Transaction> getTransactionData(Long creditCardId);
 
     void insertIntoExpenditureDataTable(Map<Categories, Double> unusualSpendData);
+
+    String getUserNameById(int userId);
+
+    String getEmailById(int userId);
+
+    long getCreditCardNumberById(int userId);
+
+    Map<String, Double> getUnUsualSpendDataFor(long ccNumber);
 }

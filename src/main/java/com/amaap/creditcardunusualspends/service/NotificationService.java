@@ -15,7 +15,7 @@ public class NotificationService {
     private final EmailService emailService;
 
 
-    @Inject
+
     public NotificationService(UserRepository userRepository, CreditCardRepository creditCardRepository, ExpenditureRepository expenditureRepository, EmailService emailService) {
         this.userRepository = userRepository;
         this.creditCardRepository = creditCardRepository;

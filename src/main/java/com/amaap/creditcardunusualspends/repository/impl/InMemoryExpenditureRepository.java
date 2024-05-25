@@ -19,4 +19,9 @@ public class InMemoryExpenditureRepository implements ExpenditureRepository {
     public void addUnUsualSpendData(Map<Categories, Double> unusualSpendData) {
         fakeDatabase.insertIntoExpenditureDataTable(unusualSpendData);
     }
+
+    @Override
+    public Map<String, Double> getUnusualSpendData(long ccNumber) {
+        return fakeDatabase.getUnUsualSpendDataFor(ccNumber);
+    }
 }

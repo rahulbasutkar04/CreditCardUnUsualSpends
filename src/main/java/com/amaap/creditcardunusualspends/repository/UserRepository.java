@@ -8,4 +8,8 @@ public interface UserRepository {
    Map<Integer, Map<String, String>> getUserData();
 
    int getUserId();
+
+    String getUserNameById(int userId);
+
+    String getUserEmailById(int userId);
 }

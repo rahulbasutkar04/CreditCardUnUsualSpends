@@ -2,15 +2,18 @@ package com.amaap.creditcardunusualspends.domain.service.impl;
 
 import com.amaap.creditcardunusualspends.domain.model.Categories;
 import com.amaap.creditcardunusualspends.domain.service.UnusualSpendDetector;
+import com.google.inject.Inject;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class DefaultUnusualSpendDetector implements UnusualSpendDetector {
     private final double thresholdPercentage;
+
     public DefaultUnusualSpendDetector(double thresholdPercentage) {
         this.thresholdPercentage = thresholdPercentage;
     }
+
 
     @Override
     public Map<Categories, Double> findUnusualSpends(Map<Categories, Double> currentMonthSpending, Map<Categories, Double> previousMonthSpending) {

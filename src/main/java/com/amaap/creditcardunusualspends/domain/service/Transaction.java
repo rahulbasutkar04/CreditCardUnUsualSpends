@@ -21,7 +21,6 @@ public class Transaction {
         if (amount < 0) {
             throw new IllegalAmountException("Amount cannot be negative");
         }
-
         System.out.println("Transaction Performed..");
         return new Transaction(date, categories, amount);
     }
