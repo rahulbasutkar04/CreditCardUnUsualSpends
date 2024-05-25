@@ -1,104 +1,106 @@
-# Credit Card Management System
+# Credit Card Unusual Spends
 
-## Overview
+## Design Analysis
 
-This system provides functionalities for managing customer information, credit cards, transactions, expenditures, and notifications. The services are designed to handle creating customers, associating credit cards, performing transactions, analyzing expenditures, and sending notifications.
+### Controllers
+- **Classes and Behaviors**
+    - #### UserController
+        - `Response createUser(int userId, String name, String email)`
+        - **DTO**
+            - `Response`
+            - `Http` (Enum)
+    - #### CreditCardController
+        - `Response receiveCreditCardNumber(Long number)`
+    - #### TransactionController
+        - `Response initialiseTransaction(Date date, Category category, Double amount)`
+    - #### ExpenditureController
+        - `Response getSpends()`
+    - #### NotificationController
+        - `Response notifyUnusualSpending(int userId)`
 
-## Controllers
+### Outer Service
+- **Classes and Behaviors**
+    - #### UserService
+        - `boolean createUser(int id, String name, String email)`
+    - #### CreditCardService
+        - `boolean createCard(long number)`
+    - #### TransactionService
+        - `boolean performTransaction(Date date, Category category, Double amount)`
+    - #### ExpenditureService
+        - `boolean getSpends()`
+    - #### NotificationService
+        - `void notifyUnusualSpends(int userId)`
 
-### CustomerController
-- **CreateCustomer(int id, String Name, String Email)**
-    - Calls the service to create a customer.
-    - Generates a unique ID automatically.
-    - Saves the customer data in the database associated with the ID.
+### Domain
+- **Model**
+    - #### Categories (Enum)
+    - #### Transaction
+        - `Transaction createTransaction(Date date, Category category, Amount amount)` [Smart Constructor]
 
-### CreditCardController
-- **GetCreditCard(Long CreditCardNumber)**
-    - Takes a credit card number and saves it in the database.
-    - Associates the credit card number with the customer ID generated during customer creation.
+- **Service**
+    - **Classes and Behaviors**
+        - #### UnusualSpendAnalyser
+            - `public Map<Categories, Double> calculateUnusualSpends(List<Transaction> transactionData)`
+        - #### EmailService
+            - `public void sendUnusualSpendAlert(UnusualSpendAlertDTO unusualSpendAlertDTO)`
+            - `private void sendEmail(String to, String subject, String body)`
+        - #### CurrentMonthTransaction
+            - `public static List<Transaction> getCurrentMonthTransactions(List<Transaction> transactionData)`
+        - #### LastMonthTransaction
+            - `public static List<Transaction> getLastMonthTransactions(List<Transaction> transactionData)`
+        - #### UnusualSpendDetector (interface)
+            - `Map<Categories, Double> findUnusualSpends(Map<Categories, Double> currentMonthSpending, Map<Categories, Double> previousMonthSpending)`
+            - **Implementation**
+                - #### DefaultUnusualSpendDetector implements UnusualSpendDetector
+                    - `public DefaultUnusualSpendDetector(double thresholdPercentage)`
 
-### TransactionController
-- **performTransactionfor(Long CreditCardNumber)**
-    - Calls the service that performs all transactions under the given credit card number.
+### Repository (interface)
+- #### UserRepository
+    - `void addUser(int id, String name, String email)`
+    - `Map<Integer, Map<String, String>> getUserData()`
+    - `int getUserId()`
+    - `String getUserNameById(int userId)`
+    - `String getUserEmailById(int userId)`
+- #### CreditCardRepository
+    - `void addCreditCardDetails(int userId, long creditCardNumber)`
+    - `Map<Integer, Long> getCreditCardDetails()`
+    - `long getCreditCardNumber()`
+    - `long getCreditCardNumberByUserId(int userId)`
+- #### TransactionRepository
+    - `boolean addTransactionData(long creditCardNumber, Transaction transaction)`
+    - `List<Transaction> getTransactionDataFor(Long creditCardNumber)`
+- #### ExpenditureRepository
+    - `void addUnusualSpendData(Map<Categories, Double> unusualSpendData)`
+    - `Map<String, Double> getUnusualSpendData(long ccNumber)`
 
-### ExpenditureController
-- **getSpendsOf(Long CreditCardNumber)**
-    - Retrieves unusual and usual spending.
-    - Composes and sends an email accordingly.
+### Database
+- #### FakeDatabase (interface)
+    - `void insertIntoUserTable(int id, String name, String email)`
+    - `Map<Integer, Map<String, String>> getUserData()`
+    - `int getId()`
+    - `void InsertIntoCreditCardTable(int id, long CreditCardNumber)`
+    - `Map<Integer, Long> getCreditCardData()`
+    - `long getCreditCardNumber()`
+    - `boolean insertIntoTransactionTable(long creditCardNumber, Transaction transaction)`
+    - `List<Transaction> getTransactionData(Long creditCardId)`
+    - `void insertIntoExpenditureDataTable(Map<Categories, Double> unusualSpendData)`
+    - `String getUserNameById(int userId)`
+    - `String getEmailById(int userId)`
+    - `long getCreditCardNumberById(int userId)`
+    - `Map<String, Double> getUnusualSpendDataFor(long ccNumber)`
 
-### NotifierController
-- **SendNotification()**
-    - Sends notifications to customers.
+### DTO
+- **UnusualSpendAlertDTO**: Used for taking the information to send email.
 
-## Outer Services
+### Module
+- **AppModule**: For managing the dependencies.
 
-### CustomerService
-- **createCustomer(int id, String Name, String Email)**
-    - Creates a unique customer and saves them into the repository.
+## Workflow
+- **UserController**: By using this, the system creates a unique user with the help of the service and stores it into the repository.
+- **CreditCardController**: By using this, the system takes the credit card number from the user and, with the help of the service, validates it and saves it into the repository.
+- **TransactionController**: This is used to initialize the transaction and, with the help of outer and inner services, saves all transactions in the repository.
+- **ExpenditureController**: It is used to get the unusual spends from the current month and past month with the help of inner service and, if found, stores them in the repository.
+- **NotificationController**: It is used to send an email to the user regarding unusual amount spends. We can utilize the notification service to send via email or other means. Just implement that and it can be plugged in.
 
-### CreditCardService
-- **ReciveCard(Long ccNumber)**
-    - Takes the credit card number from the user.
-    - Retrieves the user ID from the customer repository.
-    - Saves the credit card number associated with the user ID.
-
-### TransactionService
-- **performTransaction(Long CreditCardNumber)**
-    - Performs all transactions under the given credit card number and saves them in the repository.
-
-### ExpenditureService
-- **getUnusualSpendFor(Long creditCardNumber)**
-    - Sends transactions from the repository to the inner service.
-    - Calls the inner service to get the unusual spend amount with category and saves it in the repository.
-
-- **getUsualSpend(Long creditCardNumber)**
-    - Sends transactions from the repository to the inner service.
-    - Calls the inner service to get the usual spend amount with category and saves it in the repository.
-
-### NotificationService
-- **sendEmailTo(int id)**
-    - Takes data from the repository for usual and unusual spending.
-    - Retrieves customer details from the customer repository.
-    - Composes and sends an email.
-
-## Domain Model
-
-### Enum: Categories
-- Defines categories for expenditures.
-
-## Inner Services
-
-### Transaction
-- **performTransaction()**
-    - Initializes the transaction.
-    - Sends the transaction data back to the outer service to save into the repository.
-
-### UnusualSpendAnalyser
-- **getUnusualSpend(TransactionData)**
-    - Returns unusual spend with category as a map `<Category, Int>`.
-
-### UsualSpendAnalyser
-- **getUsualSpend(TransactionData)**
-    - Returns total usual spend amount with category.
-
-## Repositories
-
-### CustomerRepository
-- Stores customer data (ID, name, email).
-
-### CreditCardRepository
-- Stores credit card data (ID, credit card number).
-
-### TransactionRepository
-- **SaveCurrentMonthTransaction()**
-    - Saves current month transactions.
-
-- **SavePreviousMonthTransaction()**
-    - Saves previous month transactions.
-
-### ExpenditureRepository
-- **SaveUnusualSpend(Map<Category, Int> amount)**
-    - Saves unusual spend data.
-
-- **SaveUsualSpend(Int amount)**
-    - Saves usual spend data.
+## MainClass Output
+![img.png](img.png)

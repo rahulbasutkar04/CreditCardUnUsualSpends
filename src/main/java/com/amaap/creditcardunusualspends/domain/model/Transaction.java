@@ -1,6 +1,5 @@
-package com.amaap.creditcardunusualspends.domain.service;
+package com.amaap.creditcardunusualspends.domain.model;
 
-import com.amaap.creditcardunusualspends.domain.model.Categories;
 import com.amaap.creditcardunusualspends.domain.service.exception.IllegalAmountException;
 
 import java.util.Date;

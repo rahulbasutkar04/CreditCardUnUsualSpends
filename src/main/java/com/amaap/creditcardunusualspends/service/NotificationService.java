@@ -1,10 +1,10 @@
 package com.amaap.creditcardunusualspends.service;
 
+import com.amaap.creditcardunusualspends.domain.service.EmailService;
 import com.amaap.creditcardunusualspends.dto.UnusualSpendAlertDTO;
 import com.amaap.creditcardunusualspends.repository.CreditCardRepository;
 import com.amaap.creditcardunusualspends.repository.ExpenditureRepository;
 import com.amaap.creditcardunusualspends.repository.UserRepository;
-import com.google.inject.Inject;
 
 import java.util.Map;
 

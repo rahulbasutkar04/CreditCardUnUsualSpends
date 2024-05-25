@@ -17,7 +17,7 @@ public class InMemoryCreditCardRepository implements CreditCardRepository {
 
     @Override
     public void addCreditCardDetails(int userId, long creditCardNumber) {
-             fakeDatabase.InsertIntoCreditCardTable(userId,creditCardNumber);
+        fakeDatabase.InsertIntoCreditCardTable(userId, creditCardNumber);
     }
 
     @Override
@@ -27,7 +27,7 @@ public class InMemoryCreditCardRepository implements CreditCardRepository {
 
     @Override
     public long GetCreditCardNumber() {
-        return  fakeDatabase.getCreditCardNumber();
+        return fakeDatabase.getCreditCardNumber();
     }
 
     @Override

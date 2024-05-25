@@ -1,6 +1,6 @@
 package com.amaap.creditcardunusualspends.service;
 
-import com.amaap.creditcardunusualspends.module.UserModule;
+import com.amaap.creditcardunusualspends.module.AppModule;
 import com.amaap.creditcardunusualspends.repository.UserRepository;
 import com.amaap.creditcardunusualspends.service.exception.*;
 import com.google.inject.Guice;
@@ -18,13 +18,13 @@ class UserServiceTest {
 
     @BeforeEach
     void setUp() {
-        Injector injector = Guice.createInjector(new UserModule());
-        userRepository=injector.getInstance(UserRepository.class);
+        Injector injector = Guice.createInjector(new AppModule());
+        userRepository = injector.getInstance(UserRepository.class);
         userService = new UserService(userRepository);
     }
 
     @Test
-    void shouldBeAbleToReturnTrueIfUserGetCreatedAndSaved() throws InvalidUserIdException, InvalidUserNameException, InvalidUserException, InvalidEmailException, DuplicateUserIdException {
+    void shouldBeAbleToReturnTrueIfUserGetCreatedAndSaved() throws CreditCardException {
         // arrange
         int id = 1;
         String name = "Rahul Basutkar";
@@ -57,7 +57,7 @@ class UserServiceTest {
     }
 
     @Test
-    void shouldThrowExceptionIfUserIdIsDuplicate() throws InvalidUserIdException, InvalidUserNameException, InvalidEmailException, DuplicateUserIdException {
+    void shouldThrowExceptionIfUserIdIsDuplicate() throws CreditCardException {
         // arrange
         int id = 1;
         String name1 = "Rahul Basutkar";

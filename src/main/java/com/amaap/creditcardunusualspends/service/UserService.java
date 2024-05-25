@@ -1,10 +1,7 @@
 package com.amaap.creditcardunusualspends.service;
 
 import com.amaap.creditcardunusualspends.repository.UserRepository;
-import com.amaap.creditcardunusualspends.service.exception.DuplicateUserIdException;
-import com.amaap.creditcardunusualspends.service.exception.InvalidEmailException;
-import com.amaap.creditcardunusualspends.service.exception.InvalidUserIdException;
-import com.amaap.creditcardunusualspends.service.exception.InvalidUserNameException;
+import com.amaap.creditcardunusualspends.service.exception.*;
 import com.amaap.creditcardunusualspends.service.validator.UserValidator;
 import com.google.inject.Inject;
 
@@ -16,7 +13,7 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public boolean createUser(int userId, String name, String email) throws InvalidUserIdException, InvalidUserNameException, InvalidEmailException, DuplicateUserIdException {
+    public boolean createUser(int userId, String name, String email) throws CreditCardException {
         if (userId <= 0) {
             throw new InvalidUserIdException("Invalid Id: " + userId);
         }

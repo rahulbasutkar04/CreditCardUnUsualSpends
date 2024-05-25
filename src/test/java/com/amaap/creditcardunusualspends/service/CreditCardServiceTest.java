@@ -1,7 +1,7 @@
 package com.amaap.creditcardunusualspends.service;
 
 import com.amaap.creditcardunusualspends.controller.UserController;
-import com.amaap.creditcardunusualspends.module.UserModule;
+import com.amaap.creditcardunusualspends.module.AppModule;
 import com.amaap.creditcardunusualspends.repository.CreditCardRepository;
 import com.amaap.creditcardunusualspends.repository.UserRepository;
 import com.amaap.creditcardunusualspends.service.exception.*;
@@ -23,22 +23,22 @@ class CreditCardServiceTest {
 
     @BeforeEach
     void setUp() {
-        Injector injector = Guice.createInjector(new UserModule());
-        userRepository=injector.getInstance(UserRepository.class);
+        Injector injector = Guice.createInjector(new AppModule());
+        userRepository = injector.getInstance(UserRepository.class);
         creditCardRepository = injector.getInstance(CreditCardRepository.class);
-        creditCardService = new CreditCardService(userRepository,creditCardRepository);
+        creditCardService = new CreditCardService(userRepository, creditCardRepository);
         UserService userService = new UserService(userRepository);
         userController = new UserController(userService);
 
     }
 
     @Test
-    void shouldBeABleToReturnTrueIfCreditCardIsSavedWithTheUserId() throws InvalidCreditCardNumber, InvalidCreditCardNumberLength, DuplicateCreditCardException {
+    void shouldBeABleToReturnTrueIfCreditCardIsSavedWithTheUserId() throws CreditCardException {
         // arrange
         long creditCardNumber = 12345678;
 
         // act
-        boolean isCreditCardSaved = creditCardService.CreateCard(creditCardNumber);
+        boolean isCreditCardSaved = creditCardService.createCard(creditCardNumber);
 
         // assert
         assertTrue(isCreditCardSaved);
@@ -51,7 +51,7 @@ class CreditCardServiceTest {
 
         // act & assert
         assertThrows(InvalidCreditCardNumber.class, () -> {
-            creditCardService.CreateCard(creditCardNumber);
+            creditCardService.createCard(creditCardNumber);
         });
     }
 
@@ -62,12 +62,12 @@ class CreditCardServiceTest {
 
         // act & assert
         assertThrows(InvalidCreditCardNumberLength.class, () -> {
-            creditCardService.CreateCard(creditCardNumber);
+            creditCardService.createCard(creditCardNumber);
         });
     }
 
     @Test
-    void shouldBeAbleToGetTheStoredUserIdAndCreditCardNumberFromRepository() throws InvalidUserIdException, InvalidUserNameException, InvalidUserException, InvalidEmailException, InvalidCreditCardNumber, InvalidCreditCardNumberLength, DuplicateUserIdException, DuplicateCreditCardException {
+    void shouldBeAbleToGetTheStoredUserIdAndCreditCardNumberFromRepository() throws CreditCardException {
         // arrange
         userController.createUser(1, "Rahul Basutkar", "rahulbasutkar33@gmial.com");
         long creditCardNumber = 12345678;
@@ -75,24 +75,24 @@ class CreditCardServiceTest {
         expectedData.put(1, creditCardNumber);
 
         // act
-        creditCardService.CreateCard(creditCardNumber);
+        creditCardService.createCard(creditCardNumber);
 
         // assert
         assertEquals(expectedData, creditCardRepository.getCreditCardDetails());
     }
 
     @Test
-    void shouldThrowExceptionIfDuplicateCreditCardNumberIsAdded() throws InvalidCreditCardNumber, InvalidCreditCardNumberLength, DuplicateCreditCardException, InvalidUserIdException, InvalidUserNameException, InvalidUserException, InvalidEmailException, DuplicateUserIdException {
+    void shouldThrowExceptionIfDuplicateCreditCardNumberIsAdded() throws CreditCardException {
         // arrange
         userController.createUser(1, "Rahul Basutkar", "rahulbasutkar33@gmail.com");
         long creditCardNumber = 12345678;
 
         // act
-        creditCardService.CreateCard(creditCardNumber);
+        creditCardService.createCard(creditCardNumber);
 
         // assert
         assertThrows(DuplicateCreditCardException.class, () -> {
-            creditCardService.CreateCard(creditCardNumber);
+            creditCardService.createCard(creditCardNumber);
         });
     }
 

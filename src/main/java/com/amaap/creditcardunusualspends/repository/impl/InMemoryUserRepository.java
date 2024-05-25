@@ -8,7 +8,6 @@ import java.util.Map;
 
 public class InMemoryUserRepository implements UserRepository {
     private final FakeDatabase fakeDatabase;
-
     @Inject
     public InMemoryUserRepository(FakeDatabase fakeDatabase) {
         this.fakeDatabase = fakeDatabase;
@@ -33,7 +32,6 @@ public class InMemoryUserRepository implements UserRepository {
     public String getUserNameById(int userId) {
         return fakeDatabase.getUserNameById(userId);
     }
-
     @Override
     public String getUserEmailById(int userId) {
         return fakeDatabase.getEmailById(userId);

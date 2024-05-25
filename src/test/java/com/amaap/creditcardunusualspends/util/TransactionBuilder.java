@@ -1,14 +1,14 @@
 package com.amaap.creditcardunusualspends.util;
 
 import com.amaap.creditcardunusualspends.domain.model.Categories;
-import com.amaap.creditcardunusualspends.domain.service.Transaction;
+import com.amaap.creditcardunusualspends.domain.model.Transaction;
 import com.amaap.creditcardunusualspends.domain.service.exception.IllegalAmountException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import static com.amaap.creditcardunusualspends.domain.service.Transaction.createTransaction;
+import static com.amaap.creditcardunusualspends.domain.model.Transaction.createTransaction;
 
 public class TransactionBuilder {
     List<Transaction> transactions=new ArrayList<>();

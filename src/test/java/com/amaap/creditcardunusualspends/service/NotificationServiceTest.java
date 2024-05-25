@@ -1,11 +1,12 @@
 package com.amaap.creditcardunusualspends.service;
 
 import com.amaap.creditcardunusualspends.domain.model.Categories;
+import com.amaap.creditcardunusualspends.domain.service.EmailService;
 import com.amaap.creditcardunusualspends.domain.service.UnusualSpendAnalyser;
 import com.amaap.creditcardunusualspends.domain.service.UnusualSpendDetector;
 import com.amaap.creditcardunusualspends.domain.service.impl.DefaultUnusualSpendDetector;
 import com.amaap.creditcardunusualspends.dto.UnusualSpendAlertDTO;
-import com.amaap.creditcardunusualspends.module.UserModule;
+import com.amaap.creditcardunusualspends.module.AppModule;
 import com.amaap.creditcardunusualspends.repository.CreditCardRepository;
 import com.amaap.creditcardunusualspends.repository.ExpenditureRepository;
 import com.amaap.creditcardunusualspends.repository.TransactionRepository;
@@ -35,7 +36,7 @@ class NotificationServiceTest {
 
     @BeforeEach
     void setUp() {
-        Injector injector = Guice.createInjector(new UserModule());
+        Injector injector = Guice.createInjector(new AppModule());
         expenditureRepository = injector.getInstance(ExpenditureRepository.class);
         userRepository = injector.getInstance(UserRepository.class);
         creditCardRepository = injector.getInstance(CreditCardRepository.class);
@@ -82,7 +83,6 @@ class NotificationServiceTest {
         assertEquals(148.0, sentAlert.getUnusualSpends().get(Categories.GROCERY.name()));
 
     }
-
     private static class FakeEmailService extends EmailService {
         private UnusualSpendAlertDTO lastSentAlert;
 

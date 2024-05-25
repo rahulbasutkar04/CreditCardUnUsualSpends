@@ -1,7 +1,7 @@
 package com.amaap.creditcardunusualspends.repository.impl.db.impl;
 
 import com.amaap.creditcardunusualspends.domain.model.Categories;
-import com.amaap.creditcardunusualspends.domain.service.Transaction;
+import com.amaap.creditcardunusualspends.domain.model.Transaction;
 import com.amaap.creditcardunusualspends.repository.impl.db.FakeDatabase;
 
 import java.util.*;
@@ -34,9 +34,8 @@ public class InMemoryFakeDatabase implements FakeDatabase {
 
     @Override
     public void InsertIntoCreditCardTable(int id, long creditCardNumber) {
-        creditCardData.put(id,creditCardNumber);
+        creditCardData.put(id, creditCardNumber);
     }
-
 
 
     @Override

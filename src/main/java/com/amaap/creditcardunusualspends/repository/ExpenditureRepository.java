@@ -5,7 +5,7 @@ import com.amaap.creditcardunusualspends.domain.model.Categories;
 import java.util.Map;
 
 public interface ExpenditureRepository {
-    void addUnUsualSpendData(Map<Categories,Double> unusualSpendData);
+    void addUnUsualSpendData(Map<Categories, Double> unusualSpendData);
 
     Map<String, Double> getUnusualSpendData(long ccNumber);
 }

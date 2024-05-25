@@ -12,12 +12,10 @@ public class UserController {
         this.userService = userService;
     }
 
-    public Response createUser(int userId, String name, String email) throws InvalidUserIdException, InvalidUserNameException, InvalidUserException, InvalidEmailException, DuplicateUserIdException {
-        if(userService.createUser(userId,name,email)) {
+    public Response createUser(int userId, String name, String email) throws CreditCardException {
+        if (userService.createUser(userId, name, email)) {
             return new Response(Http.OK, "User Created..");
         }
-
-        return  new Response(Http.BAD_REQUEST,"User Not Created..");
-
+        return new Response(Http.BAD_REQUEST, "User Not Created..");
     }
 }

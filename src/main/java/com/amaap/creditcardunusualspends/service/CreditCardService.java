@@ -2,6 +2,7 @@ package com.amaap.creditcardunusualspends.service;
 
 import com.amaap.creditcardunusualspends.repository.CreditCardRepository;
 import com.amaap.creditcardunusualspends.repository.UserRepository;
+import com.amaap.creditcardunusualspends.service.exception.CreditCardException;
 import com.amaap.creditcardunusualspends.service.exception.DuplicateCreditCardException;
 import com.amaap.creditcardunusualspends.service.exception.InvalidCreditCardNumber;
 import com.amaap.creditcardunusualspends.service.exception.InvalidCreditCardNumberLength;
@@ -17,7 +18,7 @@ public class CreditCardService {
         this.creditCardRepository = creditCardRepository;
     }
 
-    public boolean CreateCard(long creditCardNumber) throws InvalidCreditCardNumber, InvalidCreditCardNumberLength, DuplicateCreditCardException {
+    public boolean createCard(long creditCardNumber) throws CreditCardException {
         if (creditCardNumber <= 0) throw new InvalidCreditCardNumber("Invalid Credit card number.");
         String creditCardLength = Long.toString(creditCardNumber);
         if (creditCardLength.length() != 8) throw new InvalidCreditCardNumberLength("Credit card length must be 8");
@@ -32,6 +33,7 @@ public class CreditCardService {
             System.out.println("Credit card with ID Number is saved!!");
             return true;
 
-        } else return false;
+        }
+        else return false;
     }
 }

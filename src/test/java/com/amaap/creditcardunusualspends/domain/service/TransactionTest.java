@@ -1,6 +1,7 @@
 package com.amaap.creditcardunusualspends.domain.service;
 
 import com.amaap.creditcardunusualspends.domain.model.Categories;
+import com.amaap.creditcardunusualspends.domain.model.Transaction;
 import com.amaap.creditcardunusualspends.domain.service.exception.IllegalAmountException;
 import org.junit.jupiter.api.Test;
 

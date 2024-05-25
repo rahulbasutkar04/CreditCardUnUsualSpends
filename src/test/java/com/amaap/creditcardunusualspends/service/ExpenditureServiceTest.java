@@ -5,15 +5,12 @@ import com.amaap.creditcardunusualspends.domain.service.UnusualSpendAnalyser;
 import com.amaap.creditcardunusualspends.domain.service.UnusualSpendDetector;
 import com.amaap.creditcardunusualspends.domain.service.exception.IllegalAmountException;
 import com.amaap.creditcardunusualspends.domain.service.impl.DefaultUnusualSpendDetector;
-import com.amaap.creditcardunusualspends.module.UserModule;
+import com.amaap.creditcardunusualspends.module.AppModule;
 import com.amaap.creditcardunusualspends.repository.CreditCardRepository;
 import com.amaap.creditcardunusualspends.repository.ExpenditureRepository;
 import com.amaap.creditcardunusualspends.repository.TransactionRepository;
 import com.amaap.creditcardunusualspends.repository.UserRepository;
-import com.amaap.creditcardunusualspends.service.exception.DuplicateUserIdException;
-import com.amaap.creditcardunusualspends.service.exception.InvalidEmailException;
-import com.amaap.creditcardunusualspends.service.exception.InvalidUserIdException;
-import com.amaap.creditcardunusualspends.service.exception.InvalidUserNameException;
+import com.amaap.creditcardunusualspends.service.exception.*;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,7 +35,7 @@ public class ExpenditureServiceTest {
 
     @BeforeEach
     void setUp() {
-        Injector injector = Guice.createInjector(new UserModule());
+        Injector injector = Guice.createInjector(new AppModule());
         creditCardRepository = injector.getInstance(CreditCardRepository.class);
         transactionRepository = injector.getInstance(TransactionRepository.class);
         expenditureRepository = injector.getInstance(ExpenditureRepository.class);
@@ -51,7 +48,7 @@ public class ExpenditureServiceTest {
     }
 
     @Test
-    void shouldBeAbleToReturnTrueIfTransactionsArePresentToGetTheUnusualSpends() throws InvalidUserIdException, InvalidUserNameException, InvalidEmailException, DuplicateUserIdException, IllegalAmountException {
+    void shouldBeAbleToReturnTrueIfTransactionsArePresentToGetTheUnusualSpends() throws CreditCardException, IllegalAmountException {
         // arrange
         userService.createUser(1, "RahulBasutkar", "abc@gmail.com");
         creditCardRepository.addCreditCardDetails(1, 12345678);
@@ -70,7 +67,7 @@ public class ExpenditureServiceTest {
     }
 
     @Test
-    void shouldBeAbleToReturnFalseIfNoUnUsualDPendsFound() throws InvalidUserIdException, InvalidUserNameException, InvalidEmailException, DuplicateUserIdException, IllegalAmountException {
+    void shouldBeAbleToReturnFalseIfNoUnUsualDPendsFound() throws CreditCardException, IllegalAmountException {
         // arrange
         userService.createUser(1, "RahulBasutkar", "abc@gmail.com");
         creditCardRepository.addCreditCardDetails(1, 12345678);

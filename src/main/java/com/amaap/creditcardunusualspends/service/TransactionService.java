@@ -1,11 +1,10 @@
 package com.amaap.creditcardunusualspends.service;
 
 import com.amaap.creditcardunusualspends.domain.model.Categories;
-import com.amaap.creditcardunusualspends.domain.service.Transaction;
+import com.amaap.creditcardunusualspends.domain.model.Transaction;
 import com.amaap.creditcardunusualspends.domain.service.exception.IllegalAmountException;
 import com.amaap.creditcardunusualspends.repository.CreditCardRepository;
 import com.amaap.creditcardunusualspends.repository.TransactionRepository;
-import com.google.inject.Inject;
 
 import java.util.Date;
 

@@ -3,17 +3,19 @@ package com.amaap.creditcardunusualspends.controller;
 import com.amaap.creditcardunusualspends.controller.dto.Http;
 import com.amaap.creditcardunusualspends.controller.dto.Response;
 import com.amaap.creditcardunusualspends.domain.model.Categories;
+import com.amaap.creditcardunusualspends.domain.service.EmailService;
 import com.amaap.creditcardunusualspends.domain.service.UnusualSpendAnalyser;
 import com.amaap.creditcardunusualspends.domain.service.UnusualSpendDetector;
 import com.amaap.creditcardunusualspends.domain.service.exception.IllegalAmountException;
 import com.amaap.creditcardunusualspends.domain.service.impl.DefaultUnusualSpendDetector;
-import com.amaap.creditcardunusualspends.dto.UnusualSpendAlertDTO;
-import com.amaap.creditcardunusualspends.module.UserModule;
+import com.amaap.creditcardunusualspends.module.AppModule;
 import com.amaap.creditcardunusualspends.repository.CreditCardRepository;
 import com.amaap.creditcardunusualspends.repository.ExpenditureRepository;
 import com.amaap.creditcardunusualspends.repository.TransactionRepository;
 import com.amaap.creditcardunusualspends.repository.UserRepository;
-import com.amaap.creditcardunusualspends.service.*;
+import com.amaap.creditcardunusualspends.service.ExpenditureService;
+import com.amaap.creditcardunusualspends.service.NotificationService;
+import com.amaap.creditcardunusualspends.service.TransactionService;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,7 +25,6 @@ import java.util.Calendar;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class NotificationControllerTest {
     private UserRepository userRepository;
@@ -39,7 +40,7 @@ public class NotificationControllerTest {
 
     @BeforeEach
     void setUp() {
-        Injector injector = Guice.createInjector(new UserModule());
+        Injector injector = Guice.createInjector(new AppModule());
         expenditureRepository = injector.getInstance(ExpenditureRepository.class);
         userRepository = injector.getInstance(UserRepository.class);
         creditCardRepository = injector.getInstance(CreditCardRepository.class);
@@ -47,10 +48,8 @@ public class NotificationControllerTest {
         unusualSpendDetector = new DefaultUnusualSpendDetector(50);
         unusualSpendAnalyser = new UnusualSpendAnalyser(unusualSpendDetector);
         transactionService = new TransactionService(creditCardRepository, transactionRepository);
-
         expenditureService = new ExpenditureService(transactionRepository, creditCardRepository, expenditureRepository, unusualSpendAnalyser);
         emailService = new EmailService();
-
         notificationService = new NotificationService(userRepository, creditCardRepository, expenditureRepository, emailService);
     }
 
@@ -75,17 +74,16 @@ public class NotificationControllerTest {
         transactionService.performTransaction(previousMonthDate, Categories.GROCERY, 50.0);
         transactionService.performTransaction(currentMonthDate, Categories.GROCERY, 148.0);
         expenditureService.getSpends();
-        NotificationController notificationController=new NotificationController(notificationService);
-        Response expected=new Response(Http.OK,"Notification sent successfully.");
+        NotificationController notificationController = new NotificationController(notificationService);
+        Response expected = new Response(Http.OK, "Notification sent successfully.");
 
         // act
-        Response actual=notificationController.notifyUnusualSpending(userId);
+        Response actual = notificationController.notifyUnusualSpending(userId);
 
         // assert
-        assertEquals(expected,actual);
+        assertEquals(expected, actual);
 
     }
-
 
 
 }

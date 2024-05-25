@@ -13,7 +13,7 @@ import com.amaap.creditcardunusualspends.repository.impl.db.impl.InMemoryFakeDat
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 
-public class UserModule extends AbstractModule {
+public class AppModule extends AbstractModule {
     @Override
     protected void configure() {
         bind(FakeDatabase.class).to(InMemoryFakeDatabase.class).in(Singleton.class);

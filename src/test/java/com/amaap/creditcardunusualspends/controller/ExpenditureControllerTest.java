@@ -7,7 +7,7 @@ import com.amaap.creditcardunusualspends.domain.service.UnusualSpendAnalyser;
 import com.amaap.creditcardunusualspends.domain.service.UnusualSpendDetector;
 import com.amaap.creditcardunusualspends.domain.service.exception.IllegalAmountException;
 import com.amaap.creditcardunusualspends.domain.service.impl.DefaultUnusualSpendDetector;
-import com.amaap.creditcardunusualspends.module.UserModule;
+import com.amaap.creditcardunusualspends.module.AppModule;
 import com.amaap.creditcardunusualspends.repository.CreditCardRepository;
 import com.amaap.creditcardunusualspends.repository.ExpenditureRepository;
 import com.amaap.creditcardunusualspends.repository.TransactionRepository;
@@ -15,10 +15,7 @@ import com.amaap.creditcardunusualspends.repository.UserRepository;
 import com.amaap.creditcardunusualspends.service.ExpenditureService;
 import com.amaap.creditcardunusualspends.service.TransactionService;
 import com.amaap.creditcardunusualspends.service.UserService;
-import com.amaap.creditcardunusualspends.service.exception.DuplicateUserIdException;
-import com.amaap.creditcardunusualspends.service.exception.InvalidEmailException;
-import com.amaap.creditcardunusualspends.service.exception.InvalidUserIdException;
-import com.amaap.creditcardunusualspends.service.exception.InvalidUserNameException;
+import com.amaap.creditcardunusualspends.service.exception.CreditCardException;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.junit.jupiter.api.BeforeEach;
@@ -40,22 +37,22 @@ public class ExpenditureControllerTest {
     UnusualSpendAnalyser unusualSpendAnalyser;
 
     @BeforeEach
-    void setUp()
-    {
-        Injector injector= Guice.createInjector(new UserModule());
-        creditCardRepository=injector.getInstance(CreditCardRepository.class);
-        transactionRepository=injector.getInstance(TransactionRepository.class);
-        userRepository=injector.getInstance(UserRepository.class);
-        transactionService=new TransactionService(creditCardRepository,transactionRepository);
-        expenditureRepository=injector.getInstance(ExpenditureRepository.class);
-        UnusualSpendDetector unusualSpendDetector=new DefaultUnusualSpendDetector(50);
-        unusualSpendAnalyser=new UnusualSpendAnalyser(unusualSpendDetector);
-        expenditureService=new ExpenditureService(transactionRepository,creditCardRepository,expenditureRepository,unusualSpendAnalyser);
-        userService=new UserService(userRepository);
+    void setUp() {
+        Injector injector = Guice.createInjector(new AppModule());
+        creditCardRepository = injector.getInstance(CreditCardRepository.class);
+        transactionRepository = injector.getInstance(TransactionRepository.class);
+        userRepository = injector.getInstance(UserRepository.class);
+        transactionService = new TransactionService(creditCardRepository, transactionRepository);
+        expenditureRepository = injector.getInstance(ExpenditureRepository.class);
+        UnusualSpendDetector unusualSpendDetector = new DefaultUnusualSpendDetector(50);
+        unusualSpendAnalyser = new UnusualSpendAnalyser(unusualSpendDetector);
+        expenditureService = new ExpenditureService(transactionRepository, creditCardRepository, expenditureRepository, unusualSpendAnalyser);
+        userService = new UserService(userRepository);
 
     }
+
     @Test
-    void shouldBeAbleToRespondWithOkIfTransactionsArePresentToGetTheUnusualSpends() throws InvalidUserIdException, InvalidUserNameException, InvalidEmailException, DuplicateUserIdException, IllegalAmountException {
+    void shouldBeAbleToRespondWithOkIfTransactionsArePresentToGetTheUnusualSpends() throws CreditCardException, IllegalAmountException {
         // arrange
         userService.createUser(1, "RahulBasutkar", "abc@gmail.com");
         creditCardRepository.addCreditCardDetails(1, 12345678);

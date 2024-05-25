@@ -1,5 +1,7 @@
 package com.amaap.creditcardunusualspends.domain.service;
 
+import com.amaap.creditcardunusualspends.domain.model.Transaction;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -25,7 +27,6 @@ public class CurrentMonthTransactionAnalyser {
                 currentMonthTransactions.add(transaction);
             }
         }
-
         return currentMonthTransactions;
     }
 }

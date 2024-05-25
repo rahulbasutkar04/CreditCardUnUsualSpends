@@ -1,5 +1,7 @@
 package com.amaap.creditcardunusualspends.domain.service;
 
+import com.amaap.creditcardunusualspends.domain.model.Transaction;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -8,7 +10,6 @@ import java.util.List;
 public class LastMonthTransactionAnalyser {
     public static List<Transaction> getLastMonthTransactions(List<Transaction> transactionData) {
         List<Transaction> previousMonthTransactions = new ArrayList<>();
-
         Calendar currentCalendar = Calendar.getInstance();
         int currentMonth = currentCalendar.get(Calendar.MONTH);
         int currentYear = currentCalendar.get(Calendar.YEAR);
@@ -28,7 +29,6 @@ public class LastMonthTransactionAnalyser {
                 previousMonthTransactions.add(transaction);
             }
         }
-
         return previousMonthTransactions;
     }
 }

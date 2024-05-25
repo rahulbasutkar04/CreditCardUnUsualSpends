@@ -1,6 +1,7 @@
 package com.amaap.creditcardunusualspends.domain.service;
 
 import com.amaap.creditcardunusualspends.domain.model.Categories;
+import com.amaap.creditcardunusualspends.domain.model.Transaction;
 import com.amaap.creditcardunusualspends.domain.service.exception.IllegalAmountException;
 import com.amaap.creditcardunusualspends.domain.service.impl.DefaultUnusualSpendDetector;
 import com.amaap.creditcardunusualspends.util.TransactionBuilder;
@@ -15,8 +16,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class UnusualSpendAnalyserTest {
 
     TransactionBuilder transactionBuilder = new TransactionBuilder();
-    UnusualSpendDetector unusualSpendDetector=new DefaultUnusualSpendDetector(50);
-    UnusualSpendAnalyser unusualSpendAnalyser=new UnusualSpendAnalyser(unusualSpendDetector);
+    UnusualSpendDetector unusualSpendDetector = new DefaultUnusualSpendDetector(50);
+    UnusualSpendAnalyser unusualSpendAnalyser = new UnusualSpendAnalyser(unusualSpendDetector);
 
     @Test
     public void shouldBeAbleToTestCurrentMonthTransactions() throws IllegalAmountException {

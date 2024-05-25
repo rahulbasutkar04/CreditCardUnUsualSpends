@@ -1,12 +1,11 @@
 package com.amaap.creditcardunusualspends.repository.impl;
 
-import com.amaap.creditcardunusualspends.domain.service.Transaction;
+import com.amaap.creditcardunusualspends.domain.model.Transaction;
 import com.amaap.creditcardunusualspends.repository.TransactionRepository;
 import com.amaap.creditcardunusualspends.repository.impl.db.FakeDatabase;
 import com.google.inject.Inject;
 
 import java.util.List;
-import java.util.Map;
 
 public class InMemoryTransactionRepository implements TransactionRepository {
     private final FakeDatabase fakeDatabase;
@@ -18,7 +17,7 @@ public class InMemoryTransactionRepository implements TransactionRepository {
 
     @Override
     public boolean addTransactionData(long creditCardNumber, Transaction transaction) {
-        return fakeDatabase.insertIntoTransactionTable(creditCardNumber,transaction);
+        return fakeDatabase.insertIntoTransactionTable(creditCardNumber, transaction);
     }
 
     @Override

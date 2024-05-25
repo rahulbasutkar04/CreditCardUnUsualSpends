@@ -5,7 +5,7 @@ import java.util.Objects;
 public class Response {
 
     private final Http http;
-    private  final String message;
+    private final String message;
 
     @Override
     public boolean equals(Object o) {
@@ -20,8 +20,8 @@ public class Response {
     }
 
     public Response(Http http, String message) {
-        this.http=http;
-        this.message=message;
+        this.http = http;
+        this.message = message;
     }
 
     @Override

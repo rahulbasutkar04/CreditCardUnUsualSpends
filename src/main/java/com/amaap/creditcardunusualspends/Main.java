@@ -3,10 +3,11 @@ package com.amaap.creditcardunusualspends;
 import com.amaap.creditcardunusualspends.controller.*;
 import com.amaap.creditcardunusualspends.controller.dto.Response;
 import com.amaap.creditcardunusualspends.domain.model.Categories;
+import com.amaap.creditcardunusualspends.domain.service.EmailService;
 import com.amaap.creditcardunusualspends.domain.service.UnusualSpendAnalyser;
 import com.amaap.creditcardunusualspends.domain.service.exception.IllegalAmountException;
 import com.amaap.creditcardunusualspends.domain.service.impl.DefaultUnusualSpendDetector;
-import com.amaap.creditcardunusualspends.module.UserModule;
+import com.amaap.creditcardunusualspends.module.AppModule;
 import com.amaap.creditcardunusualspends.repository.CreditCardRepository;
 import com.amaap.creditcardunusualspends.repository.ExpenditureRepository;
 import com.amaap.creditcardunusualspends.repository.TransactionRepository;
@@ -20,8 +21,8 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class Main {
-    public static void main(String[] args) throws InvalidUserIdException, InvalidUserNameException, InvalidUserException, InvalidEmailException, DuplicateUserIdException, InvalidCreditCardNumber, InvalidCreditCardNumberLength, IllegalAmountException {
-        Injector injector = Guice.createInjector(new UserModule());
+    public static void main(String[] args) throws CreditCardException, IllegalAmountException {
+        Injector injector = Guice.createInjector(new AppModule());
         UserRepository userRepository = injector.getInstance(UserRepository.class);
         UserService userService = new UserService(userRepository);
         UserController userController = new UserController(userService);
@@ -54,14 +55,12 @@ public class Main {
         UnusualSpendAnalyser unusualSpendAnalyser = new UnusualSpendAnalyser(new DefaultUnusualSpendDetector(50));
         ExpenditureService expenditureService = new ExpenditureService(transactionRepository, creditCardRepository, expenditureRepository, unusualSpendAnalyser);
         ExpenditureController expenditureController = new ExpenditureController(expenditureService);
-        Response expRes = expenditureController.getSpends();
+         expenditureController.getSpends();
 
 
         EmailService emailService = new EmailService();
         NotificationService notificationService = new NotificationService(userRepository, creditCardRepository, expenditureRepository, emailService);
         NotificationController notificationController = new NotificationController(notificationService);
         notificationController.notifyUnusualSpending(1);
-
-
     }
 }

@@ -3,11 +3,11 @@ package com.amaap.creditcardunusualspends.service;
 import com.amaap.creditcardunusualspends.controller.UserController;
 import com.amaap.creditcardunusualspends.domain.model.Categories;
 import com.amaap.creditcardunusualspends.domain.service.exception.IllegalAmountException;
-import com.amaap.creditcardunusualspends.module.UserModule;
+import com.amaap.creditcardunusualspends.module.AppModule;
 import com.amaap.creditcardunusualspends.repository.CreditCardRepository;
 import com.amaap.creditcardunusualspends.repository.TransactionRepository;
 import com.amaap.creditcardunusualspends.repository.UserRepository;
-import com.amaap.creditcardunusualspends.service.exception.*;
+import com.amaap.creditcardunusualspends.service.exception.CreditCardException;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,7 +27,7 @@ class TransactionServiceTest {
 
     @BeforeEach
     void setUp() {
-        Injector injector = Guice.createInjector(new UserModule());
+        Injector injector = Guice.createInjector(new AppModule());
         userRepository = injector.getInstance(UserRepository.class);
         creditCardRepository = injector.getInstance(CreditCardRepository.class);
         transactionRepository = injector.getInstance(TransactionRepository.class);
@@ -37,12 +37,12 @@ class TransactionServiceTest {
     }
 
     @Test
-    void shouldBeAbleToReturnTrueIfTransactionIsStartedForTheCreditCardNumber() throws IllegalAmountException, InvalidCreditCardNumber, InvalidCreditCardNumberLength, InvalidUserIdException, InvalidUserNameException, InvalidUserException, InvalidEmailException, DuplicateUserIdException, DuplicateCreditCardException {
+    void shouldBeAbleToReturnTrueIfTransactionIsStartedForTheCreditCardNumber() throws IllegalAmountException, CreditCardException {
         // arrange
         UserController userController = new UserController(userService);
         userController.createUser(1, "Rahul", "rahulbasutkar33@gmail.com");
         CreditCardService creditCardService = new CreditCardService(userRepository, creditCardRepository);
-        creditCardService.CreateCard(12345678);
+        creditCardService.createCard(12345678);
         Date date = new Date();
         Categories category = Categories.FOOD;
         double amount = 200.0;
@@ -55,13 +55,13 @@ class TransactionServiceTest {
     }
 
     @Test
-    void shouldBeAbleToCheckWhetherTransactionIsSavedInMemoryOrNot() throws InvalidUserIdException, InvalidUserNameException, InvalidUserException, InvalidEmailException, InvalidCreditCardNumber, InvalidCreditCardNumberLength, IllegalAmountException, DuplicateUserIdException, DuplicateCreditCardException {
+    void shouldBeAbleToCheckWhetherTransactionIsSavedInMemoryOrNot() throws CreditCardException, IllegalAmountException {
         // arrange
         UserController userController = new UserController(userService);
         userController.createUser(1, "Rahul", "rahulbasutkar33@gmail.com");
         CreditCardService creditCardService = new CreditCardService(userRepository, creditCardRepository);
-        creditCardService.CreateCard(12345678);
-        Date date = new Date(2024,03,10);
+        creditCardService.createCard(12345678);
+        Date date = new Date(2024, 03, 10);
         Categories category = Categories.FOOD;
         double amount = 200.0;
 
@@ -69,13 +69,12 @@ class TransactionServiceTest {
         transactionService.performTransaction(date, category, amount);
         transactionService.performTransaction(new Date(2024, 04, 22), Categories.GROCERY, 400.0);
 
-        int insertedTransactionSize=transactionRepository.getTransactionDataFor(12345678L).size();
+        int insertedTransactionSize = transactionRepository.getTransactionDataFor(12345678L).size();
 
         System.out.println(transactionRepository.getTransactionDataFor(12345678L));
 
         // assert
-
-        assertEquals(2,insertedTransactionSize);
+        assertEquals(2, insertedTransactionSize);
     }
 
 

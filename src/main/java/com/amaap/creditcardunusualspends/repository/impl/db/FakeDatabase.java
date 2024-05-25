@@ -1,17 +1,19 @@
 package com.amaap.creditcardunusualspends.repository.impl.db;
 
 import com.amaap.creditcardunusualspends.domain.model.Categories;
-import com.amaap.creditcardunusualspends.domain.service.Transaction;
+import com.amaap.creditcardunusualspends.domain.model.Transaction;
 
 import java.util.List;
 import java.util.Map;
 
 public interface FakeDatabase {
-    void insertIntoUserTable(int id,String name,String email);
+    void insertIntoUserTable(int id, String name, String email);
+
     Map<Integer, Map<String, String>> getUserData();
+
     int getId();
 
-    void InsertIntoCreditCardTable(int id,long CreditCardNumber);
+    void InsertIntoCreditCardTable(int id, long CreditCardNumber);
 
     Map<Integer, Long> getCreditCardData();
 

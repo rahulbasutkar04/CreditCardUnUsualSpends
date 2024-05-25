@@ -1,4 +1,4 @@
-package com.amaap.creditcardunusualspends.service;
+package com.amaap.creditcardunusualspends.domain.service;
 
 import com.amaap.creditcardunusualspends.dto.UnusualSpendAlertDTO;
 
@@ -15,11 +15,10 @@ public class EmailService {
             emailContent.append("You spent:").append(amount).append(" on ").append(category).append("\n");
         });
 
-        emailContent.append("\nThanks,\nThe Credit Card Company");
+        emailContent.append("\nThanks,\nThe RB`S Credit Card Company");
 
         sendEmail(unusualSpendAlertDTO.getUserEmail(), "Unusual Spending Alert", emailContent.toString());
     }
-
     private void sendEmail(String to, String subject, String body) {
         // Implement email sending logic
         System.out.println("Sending email to " + to);

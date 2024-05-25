@@ -1,17 +1,20 @@
 package com.amaap.creditcardunusualspends.domain.service;
 
 import com.amaap.creditcardunusualspends.domain.model.Categories;
+import com.amaap.creditcardunusualspends.domain.model.Transaction;
 import com.amaap.creditcardunusualspends.domain.service.exception.IllegalAmountException;
 import com.amaap.creditcardunusualspends.util.TransactionBuilder;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class LastMonthTransactionAnalyserTest {
 
-    TransactionBuilder transactionBuilder=new TransactionBuilder();
+    TransactionBuilder transactionBuilder = new TransactionBuilder();
+
     @Test
     public void shouldBeAbleToTestPreviousMonthTransactions() throws IllegalAmountException {
         // arrange

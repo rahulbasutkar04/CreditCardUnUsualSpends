@@ -1,6 +1,6 @@
 package com.amaap.creditcardunusualspends.repository.impl;
 
-import com.amaap.creditcardunusualspends.module.UserModule;
+import com.amaap.creditcardunusualspends.module.AppModule;
 import com.amaap.creditcardunusualspends.repository.impl.db.FakeDatabase;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -19,7 +19,7 @@ class InMemoryCreditCardRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        Injector injector = Guice.createInjector(new UserModule());
+        Injector injector = Guice.createInjector(new AppModule());
         fakeDatabase = injector.getInstance(FakeDatabase.class);
         creditCardRepository = new InMemoryCreditCardRepository(fakeDatabase);
     }
