@@ -4,10 +4,12 @@ import com.amaap.creditcardunusualspends.controller.dto.Http;
 import com.amaap.creditcardunusualspends.controller.dto.Response;
 import com.amaap.creditcardunusualspends.service.UserService;
 import com.amaap.creditcardunusualspends.service.exception.*;
+import com.google.inject.Inject;
 
 public class UserController {
     private final UserService userService;
 
+    @Inject
     public UserController(UserService userService) {
         this.userService = userService;
     }
