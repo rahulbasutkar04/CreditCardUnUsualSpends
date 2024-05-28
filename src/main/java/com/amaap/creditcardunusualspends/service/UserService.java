@@ -9,6 +9,7 @@ public class UserService {
     UserValidator userValidator = new UserValidator();
     private final UserRepository userRepository;
 
+    @Inject
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }

@@ -26,7 +26,7 @@ public class InMemoryCreditCardRepository implements CreditCardRepository {
     }
 
     @Override
-    public long GetCreditCardNumber() {
+    public long getCreditCardNumber() {
         return fakeDatabase.getCreditCardNumber();
     }
 

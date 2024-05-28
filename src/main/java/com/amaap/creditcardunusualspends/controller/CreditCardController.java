@@ -9,6 +9,8 @@ import com.google.inject.Inject;
 
 public class CreditCardController {
     private final CreditCardService creditCardService;
+
+    @Inject
     public CreditCardController(CreditCardService creditCardService) {
         this.creditCardService = creditCardService;
     }

@@ -6,6 +6,7 @@ import com.amaap.creditcardunusualspends.service.exception.CreditCardException;
 import com.amaap.creditcardunusualspends.service.exception.DuplicateCreditCardException;
 import com.amaap.creditcardunusualspends.service.exception.InvalidCreditCardNumber;
 import com.amaap.creditcardunusualspends.service.exception.InvalidCreditCardNumberLength;
+import com.google.inject.Inject;
 
 import java.util.Map;
 
@@ -13,6 +14,7 @@ public class CreditCardService {
     UserRepository userRepository;
     CreditCardRepository creditCardRepository;
 
+  @Inject
     public CreditCardService(UserRepository userRepository, CreditCardRepository creditCardRepository) {
         this.userRepository = userRepository;
         this.creditCardRepository = creditCardRepository;

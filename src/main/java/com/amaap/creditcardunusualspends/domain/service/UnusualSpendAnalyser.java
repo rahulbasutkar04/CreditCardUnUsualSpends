@@ -2,6 +2,7 @@ package com.amaap.creditcardunusualspends.domain.service;
 
 import com.amaap.creditcardunusualspends.domain.model.Categories;
 import com.amaap.creditcardunusualspends.domain.model.Transaction;
+import com.google.inject.Inject;
 
 import java.util.HashMap;
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.Map;
 public class UnusualSpendAnalyser {
     private final UnusualSpendDetector unusualSpendDetector;
 
+    @Inject
     public UnusualSpendAnalyser(UnusualSpendDetector unusualSpendDetector) {
         this.unusualSpendDetector = unusualSpendDetector;
     }

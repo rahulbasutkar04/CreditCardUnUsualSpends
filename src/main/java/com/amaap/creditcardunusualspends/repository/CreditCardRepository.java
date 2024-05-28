@@ -7,7 +7,7 @@ public interface CreditCardRepository {
 
     Map<Integer, Long> getCreditCardDetails();
 
-    long GetCreditCardNumber();
+    long getCreditCardNumber();
 
     long getCreditCardNumberByUserId(int userId);
 }

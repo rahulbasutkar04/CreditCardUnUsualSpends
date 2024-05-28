@@ -5,6 +5,7 @@ import com.amaap.creditcardunusualspends.dto.UnusualSpendAlertDTO;
 import com.amaap.creditcardunusualspends.repository.CreditCardRepository;
 import com.amaap.creditcardunusualspends.repository.ExpenditureRepository;
 import com.amaap.creditcardunusualspends.repository.UserRepository;
+import com.google.inject.Inject;
 
 import java.util.Map;
 
@@ -14,8 +15,7 @@ public class NotificationService {
     private final ExpenditureRepository expenditureRepository;
     private final EmailService emailService;
 
-
-
+    @Inject
     public NotificationService(UserRepository userRepository, CreditCardRepository creditCardRepository, ExpenditureRepository expenditureRepository, EmailService emailService) {
         this.userRepository = userRepository;
         this.creditCardRepository = creditCardRepository;

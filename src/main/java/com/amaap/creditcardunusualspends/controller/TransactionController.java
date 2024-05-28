@@ -5,12 +5,15 @@ import com.amaap.creditcardunusualspends.controller.dto.Response;
 import com.amaap.creditcardunusualspends.domain.model.Categories;
 import com.amaap.creditcardunusualspends.domain.service.exception.IllegalAmountException;
 import com.amaap.creditcardunusualspends.service.TransactionService;
+import com.google.inject.Inject;
 
 import java.util.Date;
 
 public class TransactionController {
     TransactionService transactionService;
 
+
+    @Inject
     public TransactionController(TransactionService transactionService) {
         this.transactionService = transactionService;
     }
