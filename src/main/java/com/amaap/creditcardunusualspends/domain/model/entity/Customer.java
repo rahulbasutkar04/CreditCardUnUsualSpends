@@ -15,6 +15,18 @@ public class Customer {
         this.email = email;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
