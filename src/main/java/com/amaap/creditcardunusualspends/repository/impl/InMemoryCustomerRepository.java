@@ -1,6 +1,6 @@
 package com.amaap.creditcardunusualspends.repository.impl;
 
-import com.amaap.creditcardunusualspends.domain.Customer;
+import com.amaap.creditcardunusualspends.domain.model.entity.Customer;
 import com.amaap.creditcardunusualspends.repository.CustomerRepository;
 import com.amaap.creditcardunusualspends.repository.impl.db.Database;
 import com.google.inject.Inject;
@@ -23,5 +23,13 @@ public class InMemoryCustomerRepository implements CustomerRepository {
     @Override
     public List<Customer> getCustomer() {
         return database.getCustomerList();
+    }
+
+    @Override
+    public Customer findCustomerByNameAndEmail(String name, String email) {
+        return database.getCustomerList().stream()
+                .filter(customer -> customer.getName().equals(name) && customer.getEmail().equals(email))
+                .findFirst()
+                .orElse(null);
     }
 }

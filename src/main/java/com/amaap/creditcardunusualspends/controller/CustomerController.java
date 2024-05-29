@@ -16,4 +16,5 @@ public class CustomerController {
         if(customerService.create(name,email)) return new Response(Http.OK,"Customer Created");
         else return new Response(Http.BAD_REQUEST,"Customer Not Created");
     }
+
 }

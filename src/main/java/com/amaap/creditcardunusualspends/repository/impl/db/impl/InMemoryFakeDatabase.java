@@ -1,6 +1,6 @@
 package com.amaap.creditcardunusualspends.repository.impl.db.impl;
 
-import com.amaap.creditcardunusualspends.domain.Customer;
+import com.amaap.creditcardunusualspends.domain.model.entity.Customer;
 import com.amaap.creditcardunusualspends.repository.impl.db.Database;
 
 import java.util.ArrayList;

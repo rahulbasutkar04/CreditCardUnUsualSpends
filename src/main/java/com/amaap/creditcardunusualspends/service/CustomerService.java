@@ -1,6 +1,6 @@
 package com.amaap.creditcardunusualspends.service;
 
-import com.amaap.creditcardunusualspends.domain.Customer;
+import com.amaap.creditcardunusualspends.domain.model.entity.Customer;
 import com.amaap.creditcardunusualspends.repository.CustomerRepository;
 import com.amaap.creditcardunusualspends.service.exception.InvalidEmailException;
 import com.amaap.creditcardunusualspends.service.exception.InvalidCustomerNameException;
@@ -13,12 +13,12 @@ public class CustomerService {
     UserValidator userValidator = new UserValidator();
 
     private final CustomerRepository customerRepository;
+    private Customer lastAddedCustomer;
 
     @Inject
     public CustomerService(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
     }
-
     public boolean create(String name, String email) throws CustomerException {
 
         if (!userValidator.isValidName(name)) {
@@ -28,10 +28,10 @@ public class CustomerService {
         if (!userValidator.isValidEmail(email)) {
             throw new InvalidEmailException("Invalid Email: " + email);
         }
-
-
-        Customer customer=new Customer(name,email);
+           Customer customer=new Customer(name,email);
            customerRepository.addCustomerData(customer);
+           lastAddedCustomer = customerRepository.findCustomerByNameAndEmail(name, email);
+           System.out.println("Customer Created with Id:"+lastAddedCustomer.getId());
 
         return customerRepository.getCustomer().size() != 0;
     }
