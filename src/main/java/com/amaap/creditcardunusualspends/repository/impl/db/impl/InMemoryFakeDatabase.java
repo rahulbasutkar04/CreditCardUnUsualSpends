@@ -1,5 +1,6 @@
 package com.amaap.creditcardunusualspends.repository.impl.db.impl;
 
+import com.amaap.creditcardunusualspends.domain.model.entity.CreditCard;
 import com.amaap.creditcardunusualspends.domain.model.entity.Customer;
 import com.amaap.creditcardunusualspends.repository.impl.db.Database;
 
@@ -9,6 +10,7 @@ import java.util.List;
 public class InMemoryFakeDatabase implements Database {
 
     List<Customer> customerList=new ArrayList<>();
+    List<CreditCard> creditCardList=new ArrayList<>();
     @Override
     public void insertIntoCustomerTable(Customer customer) {
         customerList.add(customer);
@@ -17,5 +19,15 @@ public class InMemoryFakeDatabase implements Database {
     @Override
     public List<Customer> getCustomerList() {
         return customerList;
+    }
+
+    @Override
+    public void insertIntoCreditCardData(CreditCard creditCard) {
+        creditCardList.add(creditCard);
+    }
+
+    @Override
+    public List<CreditCard> getCreditCardData() {
+        return creditCardList;
     }
 }
