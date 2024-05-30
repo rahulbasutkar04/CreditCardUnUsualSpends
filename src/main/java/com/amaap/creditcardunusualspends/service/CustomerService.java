@@ -36,4 +36,7 @@ public class CustomerService {
         return customerRepository.getCustomer().size() != 0;
     }
 
+    public Customer getLastAddedCustomer() {
+        return lastAddedCustomer;
+    }
 }
