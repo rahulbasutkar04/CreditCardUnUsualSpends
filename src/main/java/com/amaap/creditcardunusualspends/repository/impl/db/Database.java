@@ -5,6 +5,7 @@ import com.amaap.creditcardunusualspends.domain.model.entity.Customer;
 import com.amaap.creditcardunusualspends.domain.model.entity.Transaction;
 
 import java.util.List;
+import java.util.Map;
 
 public interface Database {
 
@@ -21,4 +22,8 @@ public interface Database {
     List<Transaction> getTransactions();
 
     boolean isCreditCardPresent(Long creditCardNumber);
+
+    void insertIntoExpenditureTable(List<Map<String, Object>> spendData);
+
+    List<Map<String, Object>> getSpendsData();
 }

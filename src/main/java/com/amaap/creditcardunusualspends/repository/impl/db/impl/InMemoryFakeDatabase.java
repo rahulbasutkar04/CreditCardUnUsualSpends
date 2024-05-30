@@ -7,12 +7,14 @@ import com.amaap.creditcardunusualspends.repository.impl.db.Database;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class InMemoryFakeDatabase implements Database {
 
     List<Customer> customerList=new ArrayList<>();
     List<CreditCard> creditCardList=new ArrayList<>();
     List<Transaction> transactionList=new ArrayList<>();
+    List<Map<String, Object>> spendDataList=new ArrayList<>();
     @Override
     public void insertIntoCustomerTable(Customer customer) {
         customerList.add(customer);
@@ -47,5 +49,15 @@ public class InMemoryFakeDatabase implements Database {
     public boolean isCreditCardPresent(Long creditCardNumber) {
         return creditCardList.stream()
                 .anyMatch(card -> card.getCreditCardNumber() == creditCardNumber);
+    }
+
+    @Override
+    public void insertIntoExpenditureTable(List<Map<String, Object>> spendData) {
+        spendDataList.addAll(spendData);
+    }
+
+    @Override
+    public List<Map<String, Object>> getSpendsData() {
+        return spendDataList;
     }
 }
