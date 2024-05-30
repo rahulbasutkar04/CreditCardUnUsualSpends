@@ -4,6 +4,7 @@ import com.amaap.creditcardunusualspends.controller.dto.Http;
 import com.amaap.creditcardunusualspends.controller.dto.Response;
 import com.amaap.creditcardunusualspends.module.CreditCardModule;
 import com.amaap.creditcardunusualspends.service.CreditCardService;
+import com.amaap.creditcardunusualspends.service.exception.CustomerException;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.junit.jupiter.api.Test;
@@ -13,10 +14,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class CreditControllerTest {
 
 
-    Injector injector= Guice.createInjector(new CreditCardModule());
-    CreditCardService creditCardService=injector.getInstance(CreditCardService.class);
+    Injector injector = Guice.createInjector(new CreditCardModule());
+    CreditCardService creditCardService = injector.getInstance(CreditCardService.class);
+
     @Test
-    void shouldBeAbleToRespondWithOkIfCreditCardIsAssignedToTheGivenUserId() {
+    void shouldBeAbleToRespondWithOkIfCreditCardIsAssignedToTheGivenUserId() throws CustomerException {
         // arrange
         CreditCardController creditCardController = new CreditCardController(creditCardService);
         int userId = 1;
@@ -26,7 +28,6 @@ public class CreditControllerTest {
         Response actual = creditCardController.createCardFor(userId);
 
         // assert
-
         assertEquals(expected, actual);
     }
 }

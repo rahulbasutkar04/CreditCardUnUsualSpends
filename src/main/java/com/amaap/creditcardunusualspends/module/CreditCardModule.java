@@ -1,6 +1,8 @@
 package com.amaap.creditcardunusualspends.module;
 
+import com.amaap.creditcardunusualspends.repository.CreditCardRepository;
 import com.amaap.creditcardunusualspends.repository.CustomerRepository;
+import com.amaap.creditcardunusualspends.repository.impl.InMemoryCreditCardRepository;
 import com.amaap.creditcardunusualspends.repository.impl.InMemoryCustomerRepository;
 import com.amaap.creditcardunusualspends.repository.impl.db.Database;
 import com.amaap.creditcardunusualspends.repository.impl.db.impl.InMemoryFakeDatabase;
@@ -13,5 +15,6 @@ public class CreditCardModule extends AbstractModule {
     protected void configure() {
         bind(Database.class).to(InMemoryFakeDatabase.class);
         bind(CustomerRepository.class).to(InMemoryCustomerRepository.class);
+        bind(CreditCardRepository.class).to(InMemoryCreditCardRepository.class);
     }
 }
