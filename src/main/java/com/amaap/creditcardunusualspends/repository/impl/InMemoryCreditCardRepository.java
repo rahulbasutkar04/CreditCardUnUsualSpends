@@ -24,4 +24,9 @@ public class InMemoryCreditCardRepository implements CreditCardRepository {
     public List<CreditCard> getCreditCards() {
         return database.getCreditCardData();
     }
+
+    @Override
+    public boolean isCreditCardPresent(Long creditCardNumber) {
+        return database.isCreditCardPresent(creditCardNumber);
+    }
 }

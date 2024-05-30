@@ -9,4 +9,7 @@ public interface CreditCardRepository {
     void addCreditCardData(CreditCard creditCard);
 
     List<CreditCard> getCreditCards();
+
+
+    boolean isCreditCardPresent(Long creditCardNumber);
 }
