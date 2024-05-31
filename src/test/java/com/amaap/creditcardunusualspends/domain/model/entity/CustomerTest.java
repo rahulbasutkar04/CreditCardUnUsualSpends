@@ -27,13 +27,14 @@ public class CustomerTest {
         String name1 = "Rahul Basutkar";
         String email1 = "rahulbasutkar33@gmail.com";
         Customer customer1 = new Customer(name1, email1);
-
+        System.out.println(customer1);
         String name2 = "John Doe";
         String email2 = "john.doe@example.com";
         Customer customer2 = new Customer(name2, email2);
 
         // act
         int id1 = customer1.getId();
+
         int id2 = customer2.getId();
 
         // assert
