@@ -3,8 +3,6 @@ package com.amaap.creditcardunusualspends.controller;
 import com.amaap.creditcardunusualspends.controller.dto.Http;
 import com.amaap.creditcardunusualspends.controller.dto.Response;
 import com.amaap.creditcardunusualspends.module.CreditCardModule;
-import com.amaap.creditcardunusualspends.service.CustomerService;
-import com.amaap.creditcardunusualspends.service.exception.CustomerException;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.junit.jupiter.api.Test;
@@ -14,12 +12,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class CustomerControllerTest {
 
     Injector injector = Guice.createInjector(new CreditCardModule());
-    private final CustomerService customerService = injector.getInstance(CustomerService.class);
+    CustomerController customerController = injector.getInstance(CustomerController.class);
 
     @Test
-    void shouldBeAbleToRespondWithOKIfCustomerISCreated() throws CustomerException {
+    void shouldBeAbleToRespondWithOKIfCustomerISCreated() {
         // arrange
-        CustomerController customerController = new CustomerController(customerService);
         String name = "Rahul Basutkar";
         String email = "rahulbasutkar33@gmail.com";
 
@@ -30,4 +27,19 @@ public class CustomerControllerTest {
         // assert
         assertEquals(expected, actual);
     }
+
+    @Test
+    void shouldBeAbleToRespondWithBADREQUESTIfCustomerNotCreated() {
+        // arrange
+        String name = "";
+        String email = "rahulbasutkar33@gmail.com";
+
+        Response expected = new Response(Http.BAD_REQUEST, "Customer Not Created");
+        // act
+        Response actual = customerController.create(name, email);
+
+        // assert
+        assertEquals(expected, actual);
+    }
+
 }
