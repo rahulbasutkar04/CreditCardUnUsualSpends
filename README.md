@@ -25,95 +25,141 @@ Thanks,
 The Credit Card Company
 
 
+## Jacoco Report
+![img_2.png](img_2.png)
+
 ## Design Analysis
 
 ### Controllers
 - **Classes and Behaviors**
-    - #### UserController
-        - `Response createUser(int userId, String name, String email)`
+    - #### CustomerController
+        - `Response createUser(String name, String email)`
         - **DTO**
             - `Response`
             - `Http` (Enum)
     - #### CreditCardController
-        - `Response receiveCreditCardNumber(Long number)`
+        - `Response createCardFor(int UserId)`
     - #### TransactionController
-        - `Response initialiseTransaction(Date date, Category category, Double amount)`
+        - `Response initialiseTransaction(Long CreditCardNumber,String date, String  category, Double amount)`
     - #### ExpenditureController
-        - `Response getSpends()`
-    - #### NotificationController
-        - `Response notifyUnusualSpending(int userId)`
+        - `Response getUnusualSpendsFor(Long creditCardNumber)`
 
 ### Outer Service
 - **Classes and Behaviors**
-    - #### UserService
-        - `boolean createUser(int id, String name, String email)`
+    - #### CustomerService
+        - `boolean create( String name, String email)`
     - #### CreditCardService
-        - `boolean createCard(long number)`
+        - `boolean createCard(int userId)`
     - #### TransactionService
-        - `boolean performTransaction(Date date, Category category, Double amount)`
+        - `boolean performTransaction(Long creditcardNumber,String  date, String category, Double amount)`
     - #### ExpenditureService
-        - `boolean getSpends()`
-    - #### NotificationService
-        - `void notifyUnusualSpends(int userId)`
+        - `boolean getUnusualSpends(Long creditCardNumber)`
+    - #### NotifierService[Interface]
+         ` boolean sendNotification(String name, String email, List<UnusualSpendNotificationDTO.SpendDetail> spendDetails, double totalExpenditure)`
+           Implementation: EmailComposer,
+                           GoogleEmailSender,
+          
+    - #### DTO
+       ` UnusualSpendNotificationDTO`
+        States
+      private String userName;
+      private String userEmail;
+      private List<SpendDetail> spendDetails;
+      private double totalUnusualSpends;
+       Behaviours
+    -  public UnusualSpendNotificationDTO(String userName, String userEmail, List<SpendDetail> spendDetails, double totalUnusualSpends)
+    - pubic getters()
+   
 
 ### Domain
 - **Model**
-    - #### Categories (Enum)
-    - #### Transaction
-        - `Transaction createTransaction(Date date, Category category, Amount amount)` [Smart Constructor]
+-    **Entity**
+    -  #### Customer
+      States
+    - `private static int lastAssignedId `
+    - `privte int id `
+    - `privte String  name `
+    - `privte String  email`
+      Behaviours
+    -  `public Customer(String name,String email)`     it returns an entity with id that is created automcatically
+    -  `public getters()`
+    -  #### CreditCard
+      States
+    - `private int userId`
+    - `private long creditCardNumber`
+      Behaviours
+    - `public CreditCard(int userId)`
+    - `private long generateCreditCardNumber()`   it is used to automatically generate 10 digit credit card number
+    - `public getters()`
+    
+    -  #### Transaction
+       States
+    -  `private long creditCardNumber`
+    -  `private Date date`
+    -  `private SpendCategory category`
+    -  `private long amount`
+      Behaviours
+    - `public Transaction(long creditCardNumber, Date date, SpendCategory category, long amount)`
+    - `pulbic getters()`
+  
+-    **ValueObjects**
+    - #### SpendCategories (Enum)
 
-- **Service**
+- **InnerService**
     - **Classes and Behaviors**
         - #### UnusualSpendAnalyser
-            - `public Map<Categories, Double> calculateUnusualSpends(List<Transaction> transactionData)`
-        - #### EmailService
-            - `public void sendUnusualSpendAlert(UnusualSpendAlertDTO unusualSpendAlertDTO)`
-            - `private void sendEmail(String to, String subject, String body)`
+            - `List<Map<String, Object>> getSpends(List<Transaction> transactionData)`
+        - #### Analyzer
+            - `public List<Map<String, Object>> findUnusualSpends(List<Transaction> currentMonthTransactions, List<Transaction> previousMonthTransactions, double thresholdPercentage)`
+            - `private Map<String, Double> calculateCategorySpending(List<Transaction> transactions) `
         - #### CurrentMonthTransaction
             - `public static List<Transaction> getCurrentMonthTransactions(List<Transaction> transactionData)`
         - #### LastMonthTransaction
             - `public static List<Transaction> getLastMonthTransactions(List<Transaction> transactionData)`
-        - #### UnusualSpendDetector (interface)
-            - `Map<Categories, Double> findUnusualSpends(Map<Categories, Double> currentMonthSpending, Map<Categories, Double> previousMonthSpending)`
-            - **Implementation**
-                - #### DefaultUnusualSpendDetector implements UnusualSpendDetector
-                    - `public DefaultUnusualSpendDetector(double thresholdPercentage)`
+        - #### SpendingAnalyzer (interface)
+            - ` List<Map<String, Object>> findUnusualSpends(List<Transaction> currentMonthTransactions, List<Transaction> previousMonthTransactions, double thresholdPercentage);`
+        
 
 ### Repository (interface)
-- #### UserRepository
-    - `void addUser(int id, String name, String email)`
-    - `Map<Integer, Map<String, String>> getUserData()`
-    - `int getUserId()`
-    - `String getUserNameById(int userId)`
-    - `String getUserEmailById(int userId)`
+- #### CustomerRepository
+ ` void addCustomerData(Customer customer)`
+  `List<Customer> getCustomer()`
+  `Customer findCustomerByNameAndEmail(String name, String email)`
+  `Customer getCustomerById(int id)`
+
 - #### CreditCardRepository
-    - `void addCreditCardDetails(int userId, long creditCardNumber)`
-    - `Map<Integer, Long> getCreditCardDetails()`
-    - `long getCreditCardNumber()`
-    - `long getCreditCardNumberByUserId(int userId)`
+  `void addCreditCardData(CreditCard creditCard)`
+  `List<CreditCard> getCreditCards()`
+  `boolean isCreditCardPresent(Long creditCardNumber)`
+  `int getUserIdByCreditCardNumber(Long creditCardNumber)`
 - #### TransactionRepository
-    - `boolean addTransactionData(long creditCardNumber, Transaction transaction)`
-    - `List<Transaction> getTransactionDataFor(Long creditCardNumber)`
+ `void addIntoTransactionData(Transaction transaction)`
+ ` List<Transaction> getTransactionData()`
 - #### ExpenditureRepository
-    - `void addUnusualSpendData(Map<Categories, Double> unusualSpendData)`
-    - `Map<String, Double> getUnusualSpendData(long ccNumber)`
+  `void addIntoExpenditureData(List<Map<String, Object>> spendData)`;
+  `List<Map<String, Object>> getSpendData()`
 
 ### Database
-- #### FakeDatabase (interface)
-    - `void insertIntoUserTable(int id, String name, String email)`
-    - `Map<Integer, Map<String, String>> getUserData()`
-    - `int getId()`
-    - `void InsertIntoCreditCardTable(int id, long CreditCardNumber)`
-    - `Map<Integer, Long> getCreditCardData()`
-    - `long getCreditCardNumber()`
-    - `boolean insertIntoTransactionTable(long creditCardNumber, Transaction transaction)`
-    - `List<Transaction> getTransactionData(Long creditCardId)`
-    - `void insertIntoExpenditureDataTable(Map<Categories, Double> unusualSpendData)`
-    - `String getUserNameById(int userId)`
-    - `String getEmailById(int userId)`
-    - `long getCreditCardNumberById(int userId)`
-    - `Map<String, Double> getUnusualSpendDataFor(long ccNumber)`
+-  #### Database (interface)
+ `void insertIntoCustomerTable(Customer customer)`
 
+ `List<Customer> getCustomerList()`
+
+  `void insertIntoCreditCardData(CreditCard creditCard)`
+
+  `List<CreditCard> getCreditCardData()`
+
+  `void insertIntoTransactionTable(Transaction transaction)`
+
+  `List<Transaction> getTransactions()`
+
+  `boolean isCreditCardPresent(Long creditCardNumber)`
+
+  `void insertIntoExpenditureTable(List<Map<String, Object>> spendData)`
+
+  `List<Map<String, Object>> getSpendsData()`
+
+  `void clear()`
 ### DTO
 - **UnusualSpendAlertDTO**: Used for taking the information to send email.
 
@@ -121,11 +167,11 @@ The Credit Card Company
 - **AppModule**: For managing the dependencies.
 
 ## Workflow
-- **UserController**: By using this, the system creates a unique user with the help of the service and stores it into the repository.
+- **CustomerController**: By using this, the system creates a unique user with the help of the service and stores it into the repository.
 - **CreditCardController**: By using this, the system takes the credit card number from the user and, with the help of the service, validates it and saves it into the repository.
 - **TransactionController**: This is used to initialize the transaction and, with the help of outer and inner services, saves all transactions in the repository.
-- **ExpenditureController**: It is used to get the unusual spends from the current month and past month with the help of inner service and, if found, stores them in the repository.
-- **NotificationController**: It is used to send an email to the user regarding unusual amount spends. We can utilize the notification service to send via email or other means. Just implement that and it can be plugged in.
+- **ExpenditureController**: It is used to get the unusual spends from the current month and past month with the help of inner service and, if found, stores them in the repository and also triggers notification service if spends caught.
+
 
 ## MainClass Output
-![img.png](img.png)
+![img_1.png](img_1.png)
