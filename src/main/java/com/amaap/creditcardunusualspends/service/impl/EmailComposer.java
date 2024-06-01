@@ -4,7 +4,7 @@ import com.amaap.creditcardunusualspends.service.NotifierService;
 import com.amaap.creditcardunusualspends.service.dto.UnusualSpendNotificationDTO;
 import java.util.List;
 
-public class EmailNotifier implements NotifierService {
+public class EmailComposer implements NotifierService {
 
     @Override
     public boolean sendNotification(String name, String email, List<UnusualSpendNotificationDTO.SpendDetail> spendDetails, double totalExpenditure) {

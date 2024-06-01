@@ -1,6 +1,6 @@
 package com.amaap.creditcardunusualspends.service.impl;
 
-public class GEmailSender {
+public class GoogleEmailSender {
 
     public boolean sendEmail(String to, String from, String subject, String text) {
         System.out.println("Mail sent to " + to + " From " + from );
