@@ -2,6 +2,7 @@ package com.amaap.creditcardunusualspends.service.impl;
 
 import com.amaap.creditcardunusualspends.service.NotifierService;
 import com.amaap.creditcardunusualspends.service.dto.UnusualSpendNotificationDTO;
+
 import java.util.List;
 
 public class EmailComposer implements NotifierService {
@@ -9,7 +10,7 @@ public class EmailComposer implements NotifierService {
     @Override
     public boolean sendNotification(String name, String email, List<UnusualSpendNotificationDTO.SpendDetail> spendDetails, double totalExpenditure) {
 
-        GEmailSender gEmailSender = new GEmailSender();
+        GoogleEmailSender googleEmailSender = new GoogleEmailSender();
         String to = email;
         String from = "creditCardServices@gmail.com";
         String subject = "Unusual spending of :" + totalExpenditure + " detected!";
@@ -28,11 +29,9 @@ public class EmailComposer implements NotifierService {
 
         String text = textBuilder.toString();
 
-        boolean b = gEmailSender.sendEmail(to, from, subject, text);
+        boolean b = googleEmailSender.sendEmail(to, from, subject, text);
         if (b) {
             System.out.println("Email is sent successfully");
-        } else {
-            System.out.println("There is a problem in sending the email");
         }
 
         return b;

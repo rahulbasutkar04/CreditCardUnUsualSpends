@@ -3,11 +3,10 @@ package com.amaap.creditcardunusualspends.service;
 import com.amaap.creditcardunusualspends.domain.model.entity.CreditCard;
 import com.amaap.creditcardunusualspends.module.CreditCardModule;
 import com.amaap.creditcardunusualspends.repository.CreditCardRepository;
+import com.amaap.creditcardunusualspends.repository.CustomerRepository;
 import com.amaap.creditcardunusualspends.repository.ExpenditureRepository;
 import com.amaap.creditcardunusualspends.repository.TransactionRepository;
-import com.amaap.creditcardunusualspends.service.exception.InvaliCreditCardNumberException;
-import com.amaap.creditcardunusualspends.service.exception.InvalidCategoryException;
-import com.amaap.creditcardunusualspends.service.exception.InvalidDateException;
+import com.amaap.creditcardunusualspends.service.exception.*;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,6 +22,8 @@ class ExpenditureServiceTest {
     ExpenditureService expenditureService;
     ExpenditureRepository expenditureRepository;
     TransactionService transactionService;
+    CustomerRepository customerRepository;
+
 
     @BeforeEach
     void setUp() {
@@ -30,40 +31,43 @@ class ExpenditureServiceTest {
         transactionRepository = injector.getInstance(TransactionRepository.class);
         creditCardRepository = injector.getInstance(CreditCardRepository.class);
         expenditureRepository = injector.getInstance(ExpenditureRepository.class);
+        customerRepository = injector.getInstance(CustomerRepository.class);
         transactionService = new TransactionService(transactionRepository, creditCardRepository);
-         expenditureService = new ExpenditureService(transactionRepository, creditCardRepository, expenditureRepository);
+        expenditureService = new ExpenditureService(transactionRepository, creditCardRepository, expenditureRepository, customerRepository);
 
 
     }
 
-
     @Test
-    void shouldBeAbleToReturnTrueIfUnUsualSpendFound() throws InvalidDateException, InvaliCreditCardNumberException, InvalidCategoryException {
-
+    void shouldBeAbleToReturnTrueIfUnUsualSpendFound() throws InvalidDateException, InvaliCreditCardNumberException, InvalidCategoryException, CustomerException, InvalidAmountException {
         // arrange
-        CreditCard creditCard = new CreditCard(1);
-        creditCardRepository.addCreditCardData(creditCard);
-        transactionService.performTransaction(creditCard.getCreditCardNumber(), "24-04-2024", "Travel", 100);
-        transactionService.performTransaction(creditCard.getCreditCardNumber(), "24-05-2024", "Travel", 500);
+        CustomerService customerService = new CustomerService(customerRepository);
+        customerService.create("Rahul", "rahulbasutkar33@gmail.com");
+        int userId = customerService.getLastAddedCustomer().getId();
+        CreditCardService creditCardService = new CreditCardService(customerRepository, creditCardRepository);
+        creditCardService.createCard(userId);
+        long creditCardNumber = creditCardService.getCreditCardNumber();
+        TransactionService transactionService = new TransactionService(transactionRepository, creditCardRepository);
+        transactionService.performTransaction(creditCardNumber, "24-05-2024", "Travel", 100);
+        transactionService.performTransaction(creditCardNumber, "01-06-2024", "Travel", 500);
+        ExpenditureService expenditureService = new ExpenditureService(transactionRepository, creditCardRepository, expenditureRepository, customerRepository);
 
-        // act
-       boolean isSpendDetected= expenditureService.getUnusualSpend(creditCard.getCreditCardNumber());
+        // act & assert
+        assertTrue(expenditureService.getUnusualSpend(creditCardNumber));
 
-       // assert
-        assertTrue(isSpendDetected);
 
     }
 
     @Test
-    void shouldBeAbleToReturnFalseIfNoUnusualSpendFound() throws InvalidDateException, InvaliCreditCardNumberException, InvalidCategoryException {
+    void shouldBeAbleToReturnFalseIfNoUnusualSpendFound() throws InvalidDateException, InvaliCreditCardNumberException, InvalidCategoryException, InvalidAmountException {
         // arrange
         CreditCard creditCard = new CreditCard(1);
         creditCardRepository.addCreditCardData(creditCard);
-        transactionService.performTransaction(creditCard.getCreditCardNumber(), "24-04-2024", "Travel", 100);
-        transactionService.performTransaction(creditCard.getCreditCardNumber(), "24-05-2024", "Travel", 100);
+        transactionService.performTransaction(creditCard.getCreditCardNumber(), "20-05-2024", "Travel", 100);
+        transactionService.performTransaction(creditCard.getCreditCardNumber(), "01-06-2024", "Travel", 100);
 
         // act
-        boolean isSpendDetected= expenditureService.getUnusualSpend(creditCard.getCreditCardNumber());
+        boolean isSpendDetected = expenditureService.getUnusualSpend(creditCard.getCreditCardNumber());
 
         // assert
         assertFalse(isSpendDetected);

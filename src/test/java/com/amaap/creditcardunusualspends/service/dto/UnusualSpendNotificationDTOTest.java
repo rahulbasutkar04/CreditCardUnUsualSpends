@@ -5,7 +5,8 @@ import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class UnusualSpendNotificationDTOTest {
 
@@ -32,7 +33,7 @@ public class UnusualSpendNotificationDTOTest {
     }
 
     @Test
-    void shouldReturnCorrectUserName() {
+    void shouldBeAbleToReturnCorrectUserName() {
         // arrange
         String userName = "Rahul Basutkar";
         UnusualSpendNotificationDTO notificationDTO = new UnusualSpendNotificationDTO(userName, "rahulbasutkar33@gmail.com", List.of(), 0.0);
@@ -42,7 +43,7 @@ public class UnusualSpendNotificationDTOTest {
     }
 
     @Test
-    void shouldReturnCorrectUserEmail() {
+    void shouldBeAbleToReturnCorrectUserEmail() {
         // arrange
         String userEmail = "rahulbasutkar33@gmail.com";
         UnusualSpendNotificationDTO notificationDTO = new UnusualSpendNotificationDTO("Rahul Basutkar", userEmail, List.of(), 0.0);
@@ -52,7 +53,7 @@ public class UnusualSpendNotificationDTOTest {
     }
 
     @Test
-    void shouldReturnCorrectSpendDetails() {
+    void shouldBeAbleToReturnCorrectSpendDetails() {
         // arrange
         List<UnusualSpendNotificationDTO.SpendDetail> spendDetails = Arrays.asList(
                 new UnusualSpendNotificationDTO.SpendDetail("Electronics", 500.0),
@@ -65,7 +66,7 @@ public class UnusualSpendNotificationDTOTest {
     }
 
     @Test
-    void shouldReturnCorrectTotalUnusualSpends() {
+    void shouldBeAbleToReturnCorrectTotalUnusualSpends() {
         // arrange
         double totalUnusualSpends = 2000.0;
         UnusualSpendNotificationDTO notificationDTO = new UnusualSpendNotificationDTO("Rahul Basutkar", "rahulbasutkar33@gmail.com", List.of(), totalUnusualSpends);
@@ -75,7 +76,7 @@ public class UnusualSpendNotificationDTOTest {
     }
 
     @Test
-    void spendDetailShouldReturnCorrectCategoryAndAmount() {
+    void spendBeAbleToReturnCorrectCategoryAndAmount() {
         // arrange
         String category = "Electronics";
         double amount = 500.0;
@@ -87,7 +88,7 @@ public class UnusualSpendNotificationDTOTest {
     }
 
     @Test
-    void shouldGenerateConsistentToString() {
+    void shouldBeAbleToGenerateConsistentToString() {
         // arrange
         String userName = "Rahul Basutkar";
         String userEmail = "rahulbasutkar33@gmail.com";

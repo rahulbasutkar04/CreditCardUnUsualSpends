@@ -32,4 +32,12 @@ public class InMemoryCustomerRepository implements CustomerRepository {
                 .findFirst()
                 .orElse(null);
     }
+
+    @Override
+    public Customer getCustomerById(int id) {
+        return database.getCustomerList().stream()
+                .filter(customer -> customer.getId() == id)
+                .findFirst()
+                .orElse(null);
+    }
 }

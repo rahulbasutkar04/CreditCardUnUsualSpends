@@ -137,7 +137,6 @@ public class NotificationBuilderTest {
         return data;
     }
 
-
     private void addIntoExpenditureDataSafe(List<Map<String, Object>> spendData) {
         if (spendData != null) {
             expenditureRepository.addIntoExpenditureData(spendData);

@@ -5,6 +5,7 @@ import com.amaap.creditcardunusualspends.module.CreditCardModule;
 import com.amaap.creditcardunusualspends.repository.CreditCardRepository;
 import com.amaap.creditcardunusualspends.repository.TransactionRepository;
 import com.amaap.creditcardunusualspends.service.exception.InvaliCreditCardNumberException;
+import com.amaap.creditcardunusualspends.service.exception.InvalidAmountException;
 import com.amaap.creditcardunusualspends.service.exception.InvalidCategoryException;
 import com.amaap.creditcardunusualspends.service.exception.InvalidDateException;
 import com.google.inject.Guice;
@@ -30,7 +31,7 @@ class TransactionServiceTest {
 
 
     @Test
-    void shouldBeAbleToTrueIfTransactionIsPerformedAndSaved() throws InvalidDateException, InvalidCategoryException, InvaliCreditCardNumberException {
+    void shouldBeAbleToReturnTrueIfTransactionIsPerformedAndSaved() throws InvalidDateException, InvalidCategoryException, InvaliCreditCardNumberException, InvalidAmountException {
         // arrange
         CreditCard creditCard = new CreditCard(2);
         long creditCardNumber = creditCard.getCreditCardNumber();
@@ -48,7 +49,7 @@ class TransactionServiceTest {
     }
 
     @Test
-    void shouldBeAbleToReturnFalseIfInvalidDateFormatIsGiven() throws InvalidDateException, InvalidCategoryException, InvaliCreditCardNumberException {
+    void shouldBeAbleToReturnFalseIfInvalidDateFormatIsGiven() throws InvalidDateException, InvalidCategoryException, InvaliCreditCardNumberException, InvalidAmountException {
         // arrange
         CreditCard creditCard = new CreditCard(2);
         long creditCardNumber = creditCard.getCreditCardNumber();
@@ -65,7 +66,7 @@ class TransactionServiceTest {
     }
 
     @Test
-    void shouldBeAbleToReturnFalseIfInvalidCategoryIsGiven() throws InvalidDateException, InvalidCategoryException, InvaliCreditCardNumberException {
+    void shouldBeAbleToReturnFalseIfInvalidCategoryIsGiven() throws InvalidDateException, InvalidCategoryException, InvaliCreditCardNumberException, InvalidAmountException {
         // arrange
         CreditCard creditCard = new CreditCard(2);
         long creditCardNumber = creditCard.getCreditCardNumber();
@@ -92,7 +93,6 @@ class TransactionServiceTest {
         long amount = 200;
 
         // act & assert
-
         assertThrows(InvalidDateException.class, () -> {
             transactionService.performTransaction(creditCardNumber, date, category, amount);
         });
@@ -108,10 +108,25 @@ class TransactionServiceTest {
         long amount = 200;
 
         // act & assert
-
         assertThrows(InvalidCategoryException.class, () -> {
             transactionService.performTransaction(creditCardNumber, date, category, amount);
         });
+
+    }
+
+    @Test
+    void shouldThrowExceptionIfGivenTransactionAmountIsInvalid() {
+        // arrange
+        long creditCardNumber = 12345678;
+        String date = "04-04-2024";
+        String category = "Travel";
+        long amount = 0;
+
+        // act & assert
+        assertThrows(InvalidAmountException.class, () -> {
+            transactionService.performTransaction(creditCardNumber, date, category, amount);
+        });
+
 
     }
 
@@ -126,11 +141,29 @@ class TransactionServiceTest {
         long amount = 200;
 
         // act & assert
-
         assertThrows(InvaliCreditCardNumberException.class, () -> {
             transactionService.performTransaction(creditCardNumber, date, category, amount);
         });
 
     }
+
+    @Test
+    void shouldReturnTrueIfTransactionDataIsPresent() throws InvalidDateException, InvalidCategoryException, InvaliCreditCardNumberException, InvalidAmountException {
+        // arrange
+        CreditCard creditCard = new CreditCard(2);
+        long creditCardNumber = creditCard.getCreditCardNumber();
+        creditCardRepository.addCreditCardData(creditCard);
+        String date = "01-04-2024";
+        String category = "TRAVEL";
+        long amount = 200;
+
+        // act
+        transactionService.performTransaction(creditCardNumber, date, category, amount);
+        boolean isDataPresent = transactionRepository.getTransactionData().size() != 0;
+
+        // assert
+        assertTrue(isDataPresent);
+    }
+
 
 }

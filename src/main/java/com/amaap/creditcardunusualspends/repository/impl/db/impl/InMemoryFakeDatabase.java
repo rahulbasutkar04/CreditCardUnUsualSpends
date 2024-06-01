@@ -11,10 +11,11 @@ import java.util.Map;
 
 public class InMemoryFakeDatabase implements Database {
 
-    List<Customer> customerList=new ArrayList<>();
-    List<CreditCard> creditCardList=new ArrayList<>();
-    List<Transaction> transactionList=new ArrayList<>();
-    List<Map<String, Object>> spendDataList=new ArrayList<>();
+    List<Customer> customerList = new ArrayList<>();
+    List<CreditCard> creditCardList = new ArrayList<>();
+    List<Transaction> transactionList = new ArrayList<>();
+    List<Map<String, Object>> spendDataList = new ArrayList<>();
+
     @Override
     public void insertIntoCustomerTable(Customer customer) {
         customerList.add(customer);
@@ -60,4 +61,14 @@ public class InMemoryFakeDatabase implements Database {
     public List<Map<String, Object>> getSpendsData() {
         return spendDataList;
     }
+
+    @Override
+    public void clear() {
+        creditCardList.clear();
+        customerList.clear();
+        transactionList.clear();
+        spendDataList.clear();
+    }
+
+
 }

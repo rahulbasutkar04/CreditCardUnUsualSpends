@@ -11,4 +11,6 @@ public interface CustomerRepository {
     List<Customer> getCustomer();
 
     Customer findCustomerByNameAndEmail(String name, String email);
+
+    Customer getCustomerById(int id);
 }

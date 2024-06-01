@@ -166,4 +166,20 @@ public class TransactionTest {
         // assert
         assertEquals(expectedString, transaction.toString());
     }
+    @Test
+    void shouldReturnFalseForDifferentObjectTypes() {
+        // arrange
+        long creditCardNumber = 1234567890123456L;
+        Date date = new Date();
+        SpendCategory category = SpendCategory.GROCERIES;
+        long amount = 1000;
+        Transaction transaction = new Transaction(creditCardNumber, date, category, amount);
+
+        // act
+        boolean result = transaction.equals("This is a string, not a Transaction object");
+
+        // assert
+        assertFalse(result);
+    }
+
 }

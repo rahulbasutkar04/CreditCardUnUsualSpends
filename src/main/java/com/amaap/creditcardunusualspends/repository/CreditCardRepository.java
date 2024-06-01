@@ -10,6 +10,7 @@ public interface CreditCardRepository {
 
     List<CreditCard> getCreditCards();
 
-
     boolean isCreditCardPresent(Long creditCardNumber);
+
+    int getUserIdByCreditCardNumber(Long creditCardNumber);
 }

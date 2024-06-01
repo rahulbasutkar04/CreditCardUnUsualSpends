@@ -15,24 +15,23 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class AnalyzerTest {
 
     @Test
-    void shouldBeAbleToGetTheUnusualSpendList()
-    {
+    void shouldBeAbleToGetTheUnusualSpendList() {
         // arrange
-        Analyzer analyzer=new Analyzer();
-        List<Transaction> currentMonthTransaction=new ArrayList<>();
-        List<Transaction> previousMonthTransaction=new ArrayList<>();
-        DateBuilder dateBuilder=new DateBuilder();
-        CreditCard creditCard=new CreditCard(1);
+        Analyzer analyzer = new Analyzer();
+        List<Transaction> currentMonthTransaction = new ArrayList<>();
+        List<Transaction> previousMonthTransaction = new ArrayList<>();
+        DateBuilder dateBuilder = new DateBuilder();
+        CreditCard creditCard = new CreditCard(1);
 
-        currentMonthTransaction.add(new Transaction(creditCard.getCreditCardNumber(),dateBuilder.createDate(2024,05,20), SpendCategory.GROCERIES,1000));
-        previousMonthTransaction.add(new Transaction(creditCard.getCreditCardNumber(),dateBuilder.createDate(2024,04,10), SpendCategory.GROCERIES,200));
-        previousMonthTransaction.add(new Transaction(creditCard.getCreditCardNumber(),dateBuilder.createDate(2024,04,12), SpendCategory.GROCERIES,100));
+        currentMonthTransaction.add(new Transaction(creditCard.getCreditCardNumber(), dateBuilder.createDate(2024, 05, 20), SpendCategory.GROCERIES, 1000));
+        previousMonthTransaction.add(new Transaction(creditCard.getCreditCardNumber(), dateBuilder.createDate(2024, 04, 10), SpendCategory.GROCERIES, 200));
+        previousMonthTransaction.add(new Transaction(creditCard.getCreditCardNumber(), dateBuilder.createDate(2024, 04, 12), SpendCategory.GROCERIES, 100));
 
         // act
-        List<Map<String, Object>> spend= analyzer.findUnusualSpends(currentMonthTransaction,previousMonthTransaction,60);
+        List<Map<String, Object>> spend = analyzer.findUnusualSpends(currentMonthTransaction, previousMonthTransaction, 60);
 
         // assert
-        assertEquals(1,spend.size());
+        assertEquals(1, spend.size());
 
     }
 }

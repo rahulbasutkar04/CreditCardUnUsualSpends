@@ -1,9 +1,9 @@
 package com.amaap.creditcardunusualspends.domain.model.entity;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class CreditCardTest {
 
@@ -66,4 +66,18 @@ class CreditCardTest {
         String expectedString = "CreditCard{userId=" + creditCard1.getUserId() + ", creditCardNumber=" + creditCard1.getCreditCardNumber() + "}";
         assertEquals(expectedString, creditCard1.toString());
     }
+
+    @Test
+    void shouldReturnTrueForEqualCreditCards() {
+        // arrange
+        CreditCard anotherCreditCard1 = new CreditCard(1);
+
+        // act & assert
+        assertEquals(creditCard1, creditCard1);
+        assertNotEquals(creditCard1, anotherCreditCard1);
+        assertNotEquals(creditCard1, creditCard2);
+        assertNotEquals(null, creditCard1);
+
+    }
+
 }

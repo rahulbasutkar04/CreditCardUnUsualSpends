@@ -29,4 +29,13 @@ public class InMemoryCreditCardRepository implements CreditCardRepository {
     public boolean isCreditCardPresent(Long creditCardNumber) {
         return database.isCreditCardPresent(creditCardNumber);
     }
+
+    @Override
+    public int getUserIdByCreditCardNumber(Long creditCardNumber) {
+        return database.getCreditCardData().stream()
+                .filter(card -> card.getCreditCardNumber() == creditCardNumber)
+                .findFirst()
+                .map(CreditCard::getUserId)
+                .orElseThrow(() -> new IllegalArgumentException("Credit Card not found"));
+    }
 }

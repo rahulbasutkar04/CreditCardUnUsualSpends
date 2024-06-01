@@ -48,4 +48,14 @@ public class UnusualSpendNotificationDTO {
             return amount;
         }
     }
+
+    @Override
+    public String toString() {
+        return "UnusualSpendNotificationDTO{" +
+                "userName='" + userName + '\'' +
+                ", userEmail='" + userEmail + '\'' +
+                ", spendDetails=" + spendDetails +
+                ", totalUnusualSpends=" + totalUnusualSpends +
+                '}';
+    }
 }

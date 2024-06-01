@@ -26,4 +26,6 @@ public interface Database {
     void insertIntoExpenditureTable(List<Map<String, Object>> spendData);
 
     List<Map<String, Object>> getSpendsData();
+
+    void clear();
 }

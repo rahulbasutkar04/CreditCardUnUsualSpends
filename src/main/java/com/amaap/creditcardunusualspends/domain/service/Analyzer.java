@@ -14,6 +14,7 @@ public class Analyzer implements SpendingAnalyzer {
         Map<String, Double> currentMonthSpending = calculateCategorySpending(currentMonthTransactions);
         Map<String, Double> previousMonthSpending = calculateCategorySpending(previousMonthTransactions);
 
+
         List<Map<String, Object>> unusualSpends = new ArrayList<>();
 
         for (Map.Entry<String, Double> entry : currentMonthSpending.entrySet()) {

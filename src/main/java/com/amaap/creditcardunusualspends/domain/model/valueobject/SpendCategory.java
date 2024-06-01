@@ -1,6 +1,6 @@
 package com.amaap.creditcardunusualspends.domain.model.valueobject;
 
-public enum Categories {
+public enum SpendCategory {
     TRAVEL,
     GROCERIES,
 }

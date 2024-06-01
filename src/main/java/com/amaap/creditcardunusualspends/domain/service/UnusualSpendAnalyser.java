@@ -14,6 +14,6 @@ public class UnusualSpendAnalyser {
     public List<Map<String, Object>> getSpends(List<Transaction> transactionData) {
         List<Transaction> currentMonthTransactions=currentMonthDataExtractor.getCurrentMonthTransactions(transactionData);
         List<Transaction> previousMonthTransactions=previousMonthDataExtractor.getPreviousMonthTransactions(transactionData);
-       return  analyzer.findUnusualSpends(currentMonthTransactions,previousMonthTransactions,50) ;
+        return  analyzer.findUnusualSpends(currentMonthTransactions,previousMonthTransactions,50) ;
     }
 }

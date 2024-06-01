@@ -23,26 +23,32 @@ public class InMemoryExpenditureRepositoryTest {
 
     @Test
     public void shouldBeAbleToTestAddIntoExpenditureData() {
+        // arrange
         List<Map<String, Object>> spendData = List.of(
                 Map.of("id", 1, "amount", 100),
                 Map.of("id", 2, "amount", 200)
         );
 
+        // act
         repository.addIntoExpenditureData(spendData);
 
+        // assert
         List<Map<String, Object>> storedData = database.getSpendsData();
         assertEquals(spendData, storedData);
     }
 
     @Test
     public void shouldBeAbleToTestGetSpendData() {
+        // arrange
         List<Map<String, Object>> spendData = List.of(
                 Map.of("id", 1, "amount", 100),
                 Map.of("id", 2, "amount", 200)
         );
 
+        // act
         database.insertIntoExpenditureTable(spendData);
 
+        // assert
         List<Map<String, Object>> retrievedData = repository.getSpendData();
         assertEquals(spendData, retrievedData);
     }

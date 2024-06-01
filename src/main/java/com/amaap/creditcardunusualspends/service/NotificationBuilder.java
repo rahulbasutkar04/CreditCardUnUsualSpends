@@ -23,16 +23,20 @@ public class NotificationBuilder {
     }
 
     public UnusualSpendNotificationDTO buildNotifierDataFor(long creditCardNumber) {
-        int userId=creditCardRepository.getUserIdByCreditCardNumber(creditCardNumber);
-        Customer customer=customerRepository.getCustomerById(userId);
-        String userName= customer.getName();
-        String userEmail=customer.getEmail();
+        int userId = creditCardRepository.getUserIdByCreditCardNumber(creditCardNumber);
+        System.out.println(userId);
+        Customer customer = customerRepository.getCustomerById(userId);
+        String userName = customer.getName();
+        System.out.println(userName);
+        String userEmail = customer.getEmail();
+        System.out.println(userEmail);
         List<Map<String, Object>> spendData = expenditureRepository.getSpendData();
+
 
         Map<String, Double> aggregatedSpendData = spendData.stream()
                 .collect(Collectors.groupingBy(
-                        data -> (String) data.get("category"),
-                        Collectors.summingDouble(data -> (Double) data.get("amount"))
+                        data -> (String) data.getOrDefault("category", "Unknown"),
+                        Collectors.summingDouble(data -> parseAmount(data.get("extraAmount")))
                 ));
 
         double totalExpenditure = aggregatedSpendData.values().stream()
@@ -44,5 +48,21 @@ public class NotificationBuilder {
                 .collect(Collectors.toList());
 
         return new UnusualSpendNotificationDTO(userName, userEmail, spendDetails, totalExpenditure);
+    }
+
+    private double parseAmount(Object amountObj) {
+        if (amountObj instanceof Double) {
+            return (Double) amountObj;
+        } else if (amountObj instanceof Integer) {
+            return ((Integer) amountObj).doubleValue();
+        } else if (amountObj instanceof String) {
+            try {
+                return Double.parseDouble((String) amountObj);
+            } catch (NumberFormatException e) {
+                return 0.0;
+            }
+        } else {
+            return 0.0;
+        }
     }
 }

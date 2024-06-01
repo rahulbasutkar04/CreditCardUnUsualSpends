@@ -14,28 +14,32 @@ import java.util.List;
 public class CreditCardService {
     private CustomerRepository customerRepository;
     private CreditCardRepository creditCardRepository;
+    long creditCardNumber = 0;
 
     @Inject
-    public CreditCardService(CustomerRepository customerRepository,CreditCardRepository creditCardRepository) {
+    public CreditCardService(CustomerRepository customerRepository, CreditCardRepository creditCardRepository) {
         this.customerRepository = customerRepository;
-        this.creditCardRepository=creditCardRepository;
+        this.creditCardRepository = creditCardRepository;
     }
 
     public boolean createCard(int userId) throws CustomerException {
 
-        if( userId<=0){
-            throw  new InvalidCustomerIdException("Invalid User Id Format");
+        if (userId <= 0) {
+            throw new InvalidCustomerIdException("Invalid User Id Format");
         }
         List<Customer> customers = customerRepository.getCustomer();
-        if(!customers.stream().anyMatch(customer -> customer.getId() == userId))
-        {
-            throw  new NoUserIdFoundException("Used id not found.");
+        if (!customers.stream().anyMatch(customer -> customer.getId() == userId)) {
+            throw new NoUserIdFoundException("User id not found.");
         }
 
-        CreditCard creditCard=new CreditCard(userId);
+        CreditCard creditCard = new CreditCard(userId);
+        creditCardNumber = creditCard.getCreditCardNumber();
         creditCardRepository.addCreditCardData(creditCard);
-        System.out.println("Your Credit Card Number Is:"+creditCard.getCreditCardNumber());
-        return  creditCardRepository.getCreditCards().size()!=0;
+        return creditCardRepository.getCreditCards().size() != 0;
 
+    }
+
+    public long getCreditCardNumber() {
+        return creditCardNumber;
     }
 }

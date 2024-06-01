@@ -2,11 +2,13 @@ package com.amaap.creditcardunusualspends.service.validator;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class UserValidatorTest {
 
-  UserValidator userValidator=new UserValidator();
+    UserValidator userValidator = new UserValidator();
+
     @Test
     void ShouldAbleToCheckValidCustomerNames() {
         boolean actual = userValidator.isValidName("rahul");

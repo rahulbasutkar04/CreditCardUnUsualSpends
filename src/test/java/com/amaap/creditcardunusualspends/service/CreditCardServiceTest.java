@@ -15,8 +15,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class CreditCardServiceTest {
-
-
     private CreditCardRepository creditCardRepository;
     private CustomerRepository customerRepository;
     private CreditCardService creditCardService;
@@ -67,5 +65,31 @@ class CreditCardServiceTest {
 
     }
 
+    @Test
+    void shouldReturnTrueIfCreditCardIsCreatedAndSaved() throws CustomerException {
+        // arrange
+        customerService.create("Rahul", "rahulbasutkat33@gmail.com");
+        int customerId = customerService.getLastAddedCustomer().getId();
+
+        // act
+        creditCardService.createCard(customerId);
+        boolean isCreditCardCreated = creditCardRepository.getCreditCards().size() != 0;
+
+        // assert
+        assertTrue(isCreditCardCreated);
+    }
+
+    @Test
+    void shouldReturnTrueIfCustomerIsCreatedAndSaved() throws CustomerException {
+        // arrange
+        String name = "Rahul Basutkar";
+        String email = "rahulbasutkar33@gmail.com";
+
+        // act
+        boolean isCustomerCreated = customerService.create(name, email);
+
+        // assert
+        assertTrue(isCustomerCreated);
+    }
 
 }

@@ -4,13 +4,14 @@ import java.util.Objects;
 import java.util.Random;
 
 public class CreditCard {
-    private  int userId;
+    private int userId;
     private long creditCardNumber;
 
     public CreditCard(int userId) {
         this.userId = userId;
         this.creditCardNumber = generateCreditCardNumber();
     }
+
 
     private long generateCreditCardNumber() {
         Random random = new Random();
@@ -19,6 +20,10 @@ public class CreditCard {
 
     public long getCreditCardNumber() {
         return creditCardNumber;
+    }
+
+    public int getUserId() {
+        return userId;
     }
 
     @Override
@@ -39,5 +44,9 @@ public class CreditCard {
                 "userId=" + userId +
                 ", creditCardNumber=" + creditCardNumber +
                 '}';
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 }

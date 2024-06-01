@@ -50,17 +50,16 @@ class CustomerServiceTest {
 
 
     @Test
-    void shouldThrowExceptionIfNameIsInNotValidFormat()
-    {
-        assertThrows(InvalidCustomerNameException.class,()->{
-           customerService.create("34566","rahulb@gmail.com");
+    void shouldThrowExceptionIfNameIsInNotValidFormat() {
+        assertThrows(InvalidCustomerNameException.class, () -> {
+            customerService.create("34566", "rahulb@gmail.com");
         });
     }
+
     @Test
-    void shouldThrowExceptionIEmailIsInNotValidFormat()
-    {
-        assertThrows(InvalidEmailException.class,()->{
-           customerService.create("Rahul","12345");
+    void shouldThrowExceptionIEmailIsInNotValidFormat() {
+        assertThrows(InvalidEmailException.class, () -> {
+            customerService.create("Rahul", "12345");
         });
     }
 

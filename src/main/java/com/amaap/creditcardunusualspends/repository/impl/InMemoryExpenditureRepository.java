@@ -24,4 +24,6 @@ public class InMemoryExpenditureRepository implements ExpenditureRepository {
     public List<Map<String, Object>> getSpendData() {
         return database.getSpendsData();
     }
+
+
 }
